@@ -22,13 +22,14 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
 #endif
 
 #if QT_VERSION >= 0x040700
-    ui->payTo->setPlaceholderText(tr("Enter a EmerCoin address"));
+    ui->payTo->setPlaceholderText(tr("Enter a EmerCoin address or name"));
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
 #endif
     setFocusPolicy(Qt::TabFocus);
     setFocusProxy(ui->payTo);
 
     GUIUtil::setupAddressWidget(ui->payTo, this);
+    ui->payTo->setValidator(0);
 }
 
 SendCoinsEntry::~SendCoinsEntry()
@@ -160,3 +161,27 @@ void SendCoinsEntry::setFocus()
     ui->payTo->setFocus();
 }
 
+
+void SendCoinsEntry::on_payTo_editingFinished()
+{
+    QString name = ui->payTo->text();
+    if (name.isEmpty())
+        return;
+
+    std::string strName = name.toStdString();
+    std::vector<unsigned char> vchName(strName.begin(), strName.end());
+
+    std::string error;
+    CBitcoinAddress address;
+    if (!GetNameCurrentAddress(vchName, address, error))
+        return;
+
+    QString qstrAddress = QString::fromStdString(address.ToString());
+
+    if (QMessageBox::Yes != QMessageBox::question(this, tr("Confirm name as address"),
+            tr("This name exist and still active. Do you wish to use address of its current owner - %1?").arg(qstrAddress),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel))
+        return;
+    else
+        ui->payTo->setText(qstrAddress);
+}

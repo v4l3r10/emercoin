@@ -86,7 +86,26 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
         {
             bool fAllFromMe = true;
             BOOST_FOREACH(const CTxIn& txin, wtx.vin)
-                fAllFromMe = fAllFromMe && wallet->IsMine(txin);
+                //fAllFromMe = fAllFromMe && wallet->IsMine(txin);
+            {
+                if (!wallet->IsMine(txin))
+                {
+                    // Check whether transaction input is name_* operation - in this case consider it ours
+                    CTransaction txPrev;
+                    uint256 hashBlock = 0;
+                    std::string address;
+                    if (GetTransaction(txin.prevout.hash, txPrev, hashBlock) &&
+                            txin.prevout.n < txPrev.vout.size() &&
+                            hooks->ExtractAddress(txPrev.vout[txin.prevout.n].scriptPubKey, address)
+                       )
+                    {}
+                    else
+                    {
+                        fAllFromMe = false;
+                        break;
+                    }
+                }
+            }
 
             bool fAllToMe = true;
             BOOST_FOREACH(const CTxOut& txout, wtx.vout)
@@ -121,11 +140,17 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                     }
 
                     CTxDestination address;
+                    string address2; // for namecoin use
                     if (ExtractDestination(txout.scriptPubKey, address))
                     {
                         // Sent to Emercoin Address
                         sub.type = TransactionRecord::SendToAddress;
                         sub.address = CBitcoinAddress(address).ToString();
+                    }
+                    else if (hooks->ExtractAddress(txout.scriptPubKey, address2))
+                    {
+                        sub.type = TransactionRecord::NameOp;
+                        sub.address = address2;
                     }
                     else
                     {
@@ -149,9 +174,22 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
             else
             {
                 //
+                // Check for name transferring operation
+                //
+                BOOST_FOREACH(const CTxOut& txout, wtx.vout)
+                {
+                    std::string address;
+                    // We do not check, if coin address belongs to us, assuming that the wallet can only contain
+                    // transactions involving us
+                    if (hooks->ExtractAddress(txout.scriptPubKey, address))
+                        parts.append(TransactionRecord(hash, nTime, TransactionRecord::NameOp, address, 0, 0));
+                }
+
+                //
                 // Mixed debit transaction, can't break down payees
                 //
-                parts.append(TransactionRecord(hash, nTime, TransactionRecord::Other, "", nNet, 0));
+                if (parts.empty() || nNet != 0)
+                    parts.append(TransactionRecord(hash, nTime, TransactionRecord::Other, "", nNet, 0));
             }
         }
     }

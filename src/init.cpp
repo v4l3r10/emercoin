@@ -17,6 +17,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include "emcdns.h"
 
 #ifndef WIN32
 #include <signal.h>
@@ -26,6 +27,7 @@ using namespace std;
 using namespace boost;
 
 CWallet* pwalletMain;
+EmcDns* emcdns = NULL;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -69,6 +71,8 @@ void Shutdown(void* parg)
     {
         fShutdown = true;
         nTransactionsUpdated++;
+	if(emcdns)
+          delete emcdns;
         DBFlush(false);
         StopNode();
         DBFlush(true);
@@ -267,10 +271,6 @@ bool AppInit2(int argc, char* argv[])
     }
 
     fTestNet = GetBoolArg("-testnet");
-    if (fTestNet)
-    {
-        SoftSetBoolArg("-irc", true);
-    }
 
     fDebug = GetBoolArg("-debug");
     fDetachDB = GetBoolArg("-detachdb", false);
@@ -352,6 +352,8 @@ bool AppInit2(int argc, char* argv[])
         ThreadSafeMessageBox(strprintf(_("Cannot obtain a lock on data directory %s.  EmerCoin is probably already running."), GetDataDir().string().c_str()), _("EmerCoin"), wxOK|wxMODAL);
         return false;
     }
+
+    hooks = InitHook();
 
     std::ostringstream strErrors;
     //
@@ -475,6 +477,13 @@ bool AppInit2(int argc, char* argv[])
         ThreadSafeMessageBox(strErrors.str(), _("EmerCoin"), wxOK | wxICON_ERROR | wxMODAL);
         return false;
     }
+
+//  recreate namecoin index - this must happen before ReacceptWalletTransactions())
+    filesystem::path nameindexfile = filesystem::path(GetDataDir()) / "nameindex.dat";
+    extern void rescanfornames();
+    if (!filesystem::exists(nameindexfile))
+        rescanfornames();
+//  recreate namecoin index end
 
     // Add wallet transactions that aren't already in a block to mapTransactions
     pwalletMain->ReacceptWalletTransactions();
@@ -617,16 +626,39 @@ bool AppInit2(int argc, char* argv[])
     if (fServer)
         CreateThread(ThreadRPCServer, NULL);
 
+    // init emcdns. WARNING: this should be done after hooks initialization
+    if (GetBoolArg("-emcdns", false))
+    {
+        emcdns = new EmcDns();
+        printf("DNS server started\n");
+        int port = GetArg("-emcdnsport", EMCDNS_PORT);
+	int verbose = GetArg("-emcdnsverbose", 1);
+        if (port <= 0)
+            port = EMCDNS_PORT;
+        string suffix  = GetArg("-emcdnssuffix", "");
+        string bind_ip = GetArg("-emcdnsbindip", "");
+        string allowed = GetArg("-emcdnsallowed", "");
+        string localcf = GetArg("-emcdnslocalcf", "");
+        int rc = emcdns->Reset(bind_ip.c_str(), port, 
+		suffix.c_str(), allowed.c_str(), localcf.c_str(), verbose);
+        printf("dnssrv.Reset executed=%d\n", rc);
+        if (rc < 0)
+        {
+            printf("Error when creating dns server: %d", rc);
+	    delete emcdns;
+	    emcdns = NULL;
+        }
+    }
+
 #ifdef QT_GUI
     if (GetStartOnSystemStartup())
         SetStartOnSystemStartup(true); // Remove startup links
+#else
+    if(emcdns)
+	emcdns->Run();
+    while(1)
+      Sleep(5000);
 #endif
-
-#if !defined(QT_GUI)
-    while (1)
-        Sleep(5000);
-#endif
-
     return true;
 }
 

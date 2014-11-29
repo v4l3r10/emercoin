@@ -2,11 +2,14 @@
 #define WALLETMODEL_H
 
 #include <QObject>
+#include "uint256.h"
+#include "namecoin.h"
 
 #include "allocators.h" /* for SecureString */
 
 class OptionsModel;
 class AddressTableModel;
+class NameTableModel;
 class TransactionTableModel;
 class CWallet;
 
@@ -47,6 +50,7 @@ public:
 
     OptionsModel *getOptionsModel();
     AddressTableModel *getAddressTableModel();
+    NameTableModel *getNameTableModel();
     TransactionTableModel *getTransactionTableModel();
 
     qint64 getBalance() const;
@@ -72,6 +76,12 @@ public:
 
     // Send coins to a list of recipients
     SendCoinsReturn sendCoins(const QList<SendCoinsRecipient> &recipients);
+
+    // Register new name or update it
+    // Requires unlocked wallet; can throw exception instead of returning error
+    NameTxReturn nameNew(const QString &name, const std::vector<unsigned char> &vchValue, int days);
+    NameTxReturn nameUpdate(const QString &name, const std::vector<unsigned char> &vchValue, int days, QString newAddress = "");
+    NameTxReturn nameDelete(const QString &name);
 
     // Wallet encryption
     bool setWalletEncrypted(bool encrypted, const SecureString &passphrase);
@@ -111,6 +121,7 @@ private:
     OptionsModel *optionsModel;
 
     AddressTableModel *addressTableModel;
+    NameTableModel *nameTableModel;
     TransactionTableModel *transactionTableModel;
 
     // Cache some values to be able to detect changes

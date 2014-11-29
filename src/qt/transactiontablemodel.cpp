@@ -71,7 +71,7 @@ public:
 #endif
         cachedWallet.clear();
         {
-            LOCK(wallet->cs_wallet);
+            LOCK2(cs_main, wallet->cs_wallet);
             for(std::map<uint256, CWalletTx>::iterator it = wallet->mapWallet.begin(); it != wallet->mapWallet.end(); ++it)
             {
                 cachedWallet.append(TransactionRecord::decomposeTransaction(wallet, it->second));
@@ -97,7 +97,7 @@ public:
         qSort(updated_sorted);
 
         {
-            LOCK(wallet->cs_wallet);
+            LOCK2(cs_main, wallet->cs_wallet);
             for(int update_idx = updated_sorted.size()-1; update_idx >= 0; --update_idx)
             {
                 const uint256 &hash = updated_sorted.at(update_idx);
@@ -170,16 +170,14 @@ public:
             // If a status update is needed (blocks came in since last check),
             //  update the status of this transaction from the wallet. Otherwise,
             // simply re-use the cached status.
+            LOCK2(cs_main, wallet->cs_wallet);
             if(rec->statusUpdateNeeded())
             {
-                {
-                    LOCK(wallet->cs_wallet);
-                    std::map<uint256, CWalletTx>::iterator mi = wallet->mapWallet.find(rec->hash);
+                std::map<uint256, CWalletTx>::iterator mi = wallet->mapWallet.find(rec->hash);
 
-                    if(mi != wallet->mapWallet.end())
-                    {
-                        rec->updateStatus(mi->second);
-                    }
+                if(mi != wallet->mapWallet.end())
+                {
+                    rec->updateStatus(mi->second);
                 }
             }
             return rec;
@@ -193,7 +191,7 @@ public:
     QString describe(TransactionRecord *rec)
     {
         {
-            LOCK(wallet->cs_wallet);
+            LOCK2(cs_main, wallet->cs_wallet);
             std::map<uint256, CWalletTx>::iterator mi = wallet->mapWallet.find(rec->hash);
             if(mi != wallet->mapWallet.end())
             {
@@ -225,6 +223,8 @@ TransactionTableModel::~TransactionTableModel()
     delete priv;
 }
 
+#include "nametablemodel.h"
+
 void TransactionTableModel::update()
 {
     QList<uint256> updated;
@@ -237,6 +237,7 @@ void TransactionTableModel::update()
             BOOST_FOREACH(uint256 hash, wallet->vWalletUpdated)
             {
                 updated.append(hash);
+                wallet->vCheckNewNames.push_back(hash); // to check for name ops updates
             }
             wallet->vWalletUpdated.clear();
         }
@@ -251,6 +252,7 @@ void TransactionTableModel::update()
         emit dataChanged(index(0, Status), index(priv->size()-1, Status));
         emit dataChanged(index(0, ToAddress), index(priv->size()-1, ToAddress));
     }
+
 }
 
 int TransactionTableModel::rowCount(const QModelIndex &parent) const
@@ -356,6 +358,8 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
         return tr("Mined");
     case TransactionRecord::StakeMint:
         return tr("Mint by stake");
+    case TransactionRecord::NameOp:
+        return tr("Name operation");
     default:
         return QString();
     }
@@ -373,6 +377,8 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
         return QIcon(":/icons/tx_output");
+    case TransactionRecord::NameOp:
+        return QIcon(":/icons/tx_nameop");
     default:
         return QIcon(":/icons/tx_inout");
     }
@@ -389,6 +395,7 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord *wtx, b
     case TransactionRecord::SendToAddress:
         return lookupAddress(wtx->address, tooltip);
     case TransactionRecord::SendToOther:
+    case TransactionRecord::NameOp:
         return QString::fromStdString(wtx->address);
     case TransactionRecord::SendToSelf:
     case TransactionRecord::Generated:
@@ -480,7 +487,8 @@ QString TransactionTableModel::formatTooltip(const TransactionRecord *rec) const
 {
     QString tooltip = formatTxStatus(rec) + QString("\n") + formatTxType(rec);
     if(rec->type==TransactionRecord::RecvFromOther || rec->type==TransactionRecord::SendToOther ||
-       rec->type==TransactionRecord::SendToAddress || rec->type==TransactionRecord::RecvWithAddress)
+       rec->type==TransactionRecord::SendToAddress || rec->type==TransactionRecord::RecvWithAddress ||
+       rec->type==TransactionRecord::NameOp)
     {
         tooltip += QString(" ") + formatTxToAddress(rec, true);
     }

@@ -54,7 +54,6 @@ OBJS= \
     obj/key.o \
     obj/db.o \
     obj/init.o \
-    obj/irc.o \
     obj/keystore.o \
     obj/main.o \
     obj/net.o \
@@ -64,12 +63,15 @@ OBJS= \
     obj/rpcwallet.o \
     obj/rpcrawtransaction.o \
     obj/script.o \
+    obj/sync.o \
     obj/util.o \
     obj/wallet.o \
     obj/walletdb.o \
     obj/noui.o \
     obj/kernel.o \
-    obj/stun.o
+    obj/stun.o \
+    obj/namecoin.o \
+    obj/emcdns.o
 
 all: emercoind.exe
 

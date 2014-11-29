@@ -34,7 +34,7 @@ static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const int64 MIN_TX_FEE = CENT;
-static const int64 MIN_RELAY_TX_FEE = CENT;
+static const int64 MIN_RELAY_TX_FEE = 2 * SUBCENT;
 static const int64 MAX_MONEY = 1000000000 * COIN;
 static const int64 MAX_MINT_PROOF_OF_WORK = 5020 * COIN;
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
@@ -637,6 +637,28 @@ public:
         return nMinFee;
     }
 
+    int64 GetMinFee2(unsigned int nBlockSize=1) const
+    {
+        // Base fee is either MIN_TX_FEE or MIN_RELAY_TX_FEE
+        int64 nBaseFee = SUBCENT;
+
+        unsigned int nBytes = ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION);
+        unsigned int nNewBlockSize = nBlockSize + nBytes;
+        int64 nMinFee = (1 + (int64)nBytes / (10 * 1024)) * nBaseFee; // 1 subcent per 10 kb of data
+
+        // Raise the price as the block approaches full
+        if (nBlockSize != 1 && nNewBlockSize >= MAX_BLOCK_SIZE_GEN/2)
+        {
+            if (nNewBlockSize >= MAX_BLOCK_SIZE_GEN)
+                return MAX_MONEY;
+            nMinFee *= MAX_BLOCK_SIZE_GEN / (MAX_BLOCK_SIZE_GEN - nNewBlockSize);
+        }
+
+        if (!MoneyRange(nMinFee))
+            nMinFee = MAX_MONEY;
+        return nMinFee;
+    }
+
 
     bool ReadFromDisk(CDiskTxPos pos, FILE** pfileRet=NULL)
     {
@@ -714,7 +736,7 @@ public:
     bool ReadFromDisk(CTxDB& txdb, COutPoint prevout, CTxIndex& txindexRet);
     bool ReadFromDisk(CTxDB& txdb, COutPoint prevout);
     bool ReadFromDisk(COutPoint prevout);
-    bool DisconnectInputs(CTxDB& txdb);
+    bool DisconnectInputs(CTxDB& txdb, CBlockIndex *pindex);
 
     /** Fetch from memory and/or disk. inputsRet keys are transaction hashes.
 
@@ -727,7 +749,7 @@ public:
      @return	Returns true if all inputs are in txdb or mapTestPool
      */
     bool FetchInputs(CTxDB& txdb, const std::map<uint256, CTxIndex>& mapTestPool,
-                     bool fBlock, bool fMiner, MapPrevTx& inputsRet, bool& fInvalid);
+                     bool fBlock, bool fMiner, MapPrevTx& inputsRet, bool& fInvalid) const;
 
     /** Sanity check previous transactions, then, if all checks succeed,
         mark them as spent by this transaction.
@@ -1789,7 +1811,7 @@ public:
 
     bool AppliesToMe() const
     {
-        return AppliesTo(PROTOCOL_VERSION, FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, std::vector<std::string>()));
+        return AppliesTo(PROTOCOL_VERSION, FormatSubVersion(CLIENT_NAME, EMERCOIN_ALERT_VERSION, std::vector<std::string>()));
     }
 
     bool RelayTo(CNode* pnode) const
@@ -1837,7 +1859,7 @@ public:
     bool accept(CTxDB& txdb, CTransaction &tx,
                 bool fCheckInputs, bool* pfMissingInputs, bool fOnlyCheckWithoutAdding=false);
     bool addUnchecked(CTransaction &tx);
-    bool remove(CTransaction &tx);
+    bool remove(const CTransaction &tx);
 
     unsigned long size()
     {

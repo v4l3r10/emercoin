@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = emercoin-qt
-VERSION = 0.2.4.0
+VERSION = 0.3.1.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd
@@ -109,6 +109,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/bignum.h \
     src/checkpoints.h \
     src/compat.h \
+    src/sync.h \
     src/util.h \
     src/uint256.h \
     src/serialize.h \
@@ -120,7 +121,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/walletdb.h \
     src/script.h \
     src/init.h \
-    src/irc.h \
     src/mruset.h \
     src/json/json_spirit_writer_template.h \
     src/json/json_spirit_writer.h \
@@ -161,7 +161,12 @@ HEADERS += src/qt/bitcoingui.h \
     src/ui_interface.h \
     src/kernel.h \
     src/qt/rpcconsole.h \
-    src/hash.h
+    src/hash.h \
+    src/namecoin.h \
+    src/qt/nametablemodel.h \
+    src/qt/managenamespage.h \
+    src/hooks.h \
+    src/emcdns.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -174,6 +179,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/editaddressdialog.cpp \
     src/qt/bitcoinaddressvalidator.cpp \
     src/version.cpp \
+    src/sync.cpp \
     src/util.cpp \
     src/netbase.cpp \
     src/key.cpp \
@@ -181,7 +187,6 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/main.cpp \
     src/init.cpp \
     src/net.cpp \
-    src/irc.cpp \
     src/checkpoints.cpp \
     src/addrman.cpp \
     src/db.cpp \
@@ -220,7 +225,11 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/rpcconsole.cpp \
     src/rpcrawtransaction.cpp \
     src/rpcwallet.cpp \
-    src/stun.cpp
+    src/stun.cpp \
+    src/namecoin.cpp \
+    src/qt/nametablemodel.cpp \
+    src/qt/managenamespage.cpp \
+    src/emcdns.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
@@ -235,7 +244,8 @@ FORMS += \
     src/qt/forms/overviewpage.ui \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/askpassphrasedialog.ui \
-    src/qt/forms/rpcconsole.ui
+    src/qt/forms/rpcconsole.ui \
+    src/qt/forms/managenamespage.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
@@ -331,7 +341,7 @@ macx:HEADERS += src/qt/macdockiconhandler.h
 macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
-macx:ICON = src/qt/res/icons/bitcoin.icns
+macx:ICON = src/qt/res/icons/emercoin.icns
 macx:TARGET = "Emercoin-Qt"
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden

@@ -99,6 +99,24 @@ bool CWallet::Unlock(const SecureString& strWalletPassphrase)
     return false;
 }
 
+// check if given password can be used to unlock wallet
+bool CWallet::CheckPassword(const SecureString& strWalletPassphrase)
+{
+    CCrypter crypter;
+    CKeyingMaterial vMasterKey;
+
+    {
+        LOCK(cs_wallet);
+        BOOST_FOREACH(const MasterKeyMap::value_type& pMasterKey, mapMasterKeys)
+        {
+            if(!crypter.SetKeyFromPassphrase(strWalletPassphrase, pMasterKey.second.vchSalt, pMasterKey.second.nDeriveIterations, pMasterKey.second.nDerivationMethod))
+                return false;
+            return crypter.Decrypt(pMasterKey.second.vchCryptedKey, vMasterKey);
+        }
+    }
+    return false;
+}
+
 bool CWallet::ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase)
 {
     bool fWasLocked = IsLocked();
@@ -526,7 +544,7 @@ int CWalletTx::GetRequestCount() const
 }
 
 void CWalletTx::GetAmounts(int64& nGeneratedImmature, int64& nGeneratedMature, list<pair<CTxDestination, int64> >& listReceived,
-                           list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount) const
+                           list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount, bool ignoreNameTx) const
 {
     nGeneratedImmature = nGeneratedMature = nFee = 0;
     listReceived.clear();
@@ -568,7 +586,7 @@ void CWalletTx::GetAmounts(int64& nGeneratedImmature, int64& nGeneratedMature, l
         if (nDebit > 0)
             listSent.push_back(make_pair(address, txout.nValue));
 
-        if (pwallet->IsMine(txout))
+        if (pwallet->IsMine(txout) || (!ignoreNameTx && hooks->IsMine(txout)))
             listReceived.push_back(make_pair(address, txout.nValue));
     }
 
@@ -686,7 +704,7 @@ int CWallet::ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate)
 
     CBlockIndex* pindex = pindexStart;
     {
-        LOCK(cs_wallet);
+        LOCK2(cs_main, cs_wallet);
         while (pindex)
         {
             CBlock block;
@@ -717,7 +735,7 @@ void CWallet::ReacceptWalletTransactions()
     bool fRepeat = true;
     while (fRepeat)
     {
-        LOCK(cs_wallet);
+        LOCK2(cs_main, cs_wallet);
         fRepeat = false;
         vector<CDiskTxPos> vMissingTx;
         BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, mapWallet)
@@ -758,7 +776,7 @@ void CWallet::ReacceptWalletTransactions()
             {
                 // Reaccept any txes of ours that aren't already in a block
                 if (!(wtx.IsCoinBase() || wtx.IsCoinStake()))
-                    wtx.AcceptWalletTransaction(txdb, false);
+                    wtx.AcceptWalletTransaction(txdb, true);
             }
         }
         if (!vMissingTx.empty())
@@ -857,7 +875,7 @@ int64 CWallet::GetBalance() const
 {
     int64 nTotal = 0;
     {
-        LOCK(cs_wallet);
+        LOCK2(cs_main, cs_wallet);
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
         {
             const CWalletTx* pcoin = &(*it).second;
@@ -874,11 +892,11 @@ int64 CWallet::GetUnconfirmedBalance() const
 {
     int64 nTotal = 0;
     {
-        LOCK(cs_wallet);
+        LOCK2(cs_main, cs_wallet);
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
         {
             const CWalletTx* pcoin = &(*it).second;
-            if (pcoin->IsFinal() && pcoin->IsConfirmed())
+            if ((pcoin->IsFinal() && pcoin->IsConfirmed())/* || hooks->IsNameTx(pcoin->nVersion)*/)
                 continue;
             nTotal += pcoin->GetAvailableCredit();
         }
@@ -986,6 +1004,10 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
                 int64 n = pcoin->vout[i].nValue;
 
                 if (n <= 0)
+                    continue;
+
+                // ignore namecoin TxOut
+                if (hooks->IsNameTx(pcoin->nVersion) && hooks->IsNameScript(pcoin->vout[i].scriptPubKey))
                     continue;
 
                 pair<int64,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin,i));
@@ -1207,8 +1229,8 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64> >& vecSend, CW
                     return false;
                 dPriority /= nBytes;
 
-                // Check that enough fee is included
-                int64 nPayFee = nTransactionFee * (1 + (int64)nBytes / 1000);
+                // Check that enough fee is included (at least MIN_TX_FEE per 1000 bytes)
+                int64 nPayFee = max(nTransactionFee, MIN_TX_FEE * (1 + (int64)nBytes / 1000));
                 int64 nMinFee = wtxNew.GetMinFee(1, false, GMF_SEND);
                 if (nFeeRet < max(nPayFee, nMinFee))
                 {
@@ -1797,7 +1819,10 @@ void CWallet::FixSpentCoins(int& nMismatchFound, int64& nBalanceInQuestion, bool
     nMismatchFound = 0;
     nBalanceInQuestion = 0;
 
-    LOCK(cs_wallet);
+    // cs_main lock was added here because later it might try to lock cs_main anyway (in CDB::Close()).
+    // In some rare cases locking cs_wallet and then cs_main will causes hanging.
+    // order should be cs_main, and then cs_wallet.
+    LOCK2(cs_main, cs_wallet);
     vector<CWalletTx*> vCoins;
     vCoins.reserve(mapWallet.size());
     for (map<uint256, CWalletTx>::iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)

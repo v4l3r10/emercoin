@@ -5,7 +5,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "irc.h"
 #include "db.h"
 #include "net.h"
 #include "init.h"
@@ -52,7 +51,7 @@ CAddress addrLocalHost(CService("0.0.0.0", 0), nLocalServices);
 CAddress addrSeenByPeer(CService("0.0.0.0", 0), nLocalServices);
 static CNode* pnodeLocalHost = NULL;
 uint64 nLocalHostNonce = 0;
-array<int, THREAD_MAX> vnThreadsRunning;
+boost::array<int, THREAD_MAX> vnThreadsRunning;
 static SOCKET hListenSocket = INVALID_SOCKET;
 CAddrMan addrman;
 
@@ -186,7 +185,6 @@ bool GetMyExternalIP2(const CService& addrConnect, const char* pszGet, const cha
     return error("GetMyExternalIP() : connection closed");
 }
 
-// We now get our external IP from the IRC server first and only use this as a backup
 bool GetMyExternalIP(CNetAddr& ipRet)
 {
     CService addrConnect;
@@ -262,8 +260,8 @@ bool GetMyExternalIP_STUN(CNetAddr& ipRet) {
   int rc = GetExternalIPbySTUN(rnd, &mapped, &srv);
   if(rc >= 0) {
     ipRet = CNetAddr(mapped.sin_addr);
-    printf("GetExternalIPbySTUN(%llx) returned %s in attempt %d; Server=%s\n", 
-	    rnd, addrLocalHost.ToStringIP().c_str(), rc, srv);
+
+    printf("GetExternalIPbySTUN() returned %s in attempt %d; Server=%s\n", addrLocalHost.ToStringIP().c_str(), rc, srv);
     return true;
   }
   return false;
@@ -272,20 +270,6 @@ bool GetMyExternalIP_STUN(CNetAddr& ipRet) {
 /*--------------------------------------------------------------------------*/
 void ThreadGetMyExternalIP(void* parg)
 {
-
-#if 0
-    // Wait for IRC to get it first - disabled with ppcoin
-    if (false && GetBoolArg("-irc", false))
-    {
-        for (int i = 0; i < 2 * 60; i++)
-        {
-            Sleep(1000);
-            if (fGotExternalIP || fShutdown)
-                return;
-        }
-    }
-#endif
-    // Fallback in case IRC fails to get it
     if (GetMyExternalIP_STUN(addrLocalHost))
     {
         // printf("GetMyExternalIP() returned %s\n", addrLocalHost.ToStringIP().c_str());
@@ -1220,6 +1204,8 @@ void ThreadOpenConnections2(void* parg)
         {
             // use an nUnkBias between 10 (no outgoing connections) and 90 (8 outgoing connections)
             CAddress addr = addrman.Select(10 + min(nOutbound,8)*10);
+            if (fTestNet)
+                Sleep(10000); //For some reason this loop lags if there is only few clients visible (which happens in testnet).
 
             // if we selected an invalid address, restart
             if (!addr.IsIPv4() || !addr.IsValid() || setConnected.count(addr.GetGroup()) || addr == addrLocalHost)
@@ -1646,12 +1632,6 @@ void StartNode(void* parg)
     // Map ports with UPnP
     if (fHaveUPnP)
         MapPort(fUseUPnP);
-
-    // Get addresses from IRC and advertise ours
-    // if (!CreateThread(ThreadIRCSeed, NULL))
-    //     printf("Error: CreateThread(ThreadIRCSeed) failed\n");
-    // IRC disabled with ppcoin
-    printf("IRC seeding/communication disabled\n");
 
     // Send and receive from sockets, accept connections
     if (!CreateThread(ThreadSocketHandler, NULL))

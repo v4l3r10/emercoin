@@ -19,6 +19,7 @@
 #define PPCOIN_PORT  6661
 #define RPC_PORT     6662
 #define TESTNET_PORT 6663
+#define EMCDNS_PORT  5335
 
 extern bool fTestNet;
 
@@ -133,3 +134,4 @@ class CInv
 };
 
 #endif // __INCLUDED_PROTOCOL_H__
+

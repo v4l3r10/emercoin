@@ -834,7 +834,13 @@ Value getreceivedbyaccount(const Array& params, bool fHelp)
             CTxDestination address;
             if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*pwalletMain, address) && setAddress.count(address))
                 if (wtx.GetDepthInMainChain() >= nMinDepth)
+                {
+                    // ignore namecoin TxOut
+                    if (hooks->IsNameTx(wtx.nVersion) && hooks->IsNameScript(txout.scriptPubKey))
+                        continue; //note: this will never execute, because ExtractDestination will not exctract nameTx address. Maybe fix this?
+
                     nAmount += txout.nValue;
+                }
         }
     }
 
@@ -1497,6 +1503,9 @@ Value deletetransaction(const Array& params, bool fHelp)
     ret = pwalletMain->EraseFromWallet(wtx.GetHash());
     result.push_back(Pair("erasing tx from wallet.dat", ret));
 
+    ret = hooks->deletePendingName(wtx);
+    result.push_back(Pair("removing name tx (if this is name tx) from pending name operations", ret));
+
     int nMismatchSpent;
     int64 nBalanceInQuestion;
     pwalletMain->FixSpentCoins(nMismatchSpent, nBalanceInQuestion);
@@ -1523,7 +1532,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     list<pair<CTxDestination, int64> > listReceived;
     list<pair<CTxDestination, int64> > listSent;
 
-    wtx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount);
+    wtx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount, false);
 
     bool fAllAccounts = (strAccount == string("*"));
 
@@ -1703,7 +1712,7 @@ Value listaccounts(const Array& params, bool fHelp)
         string strSentAccount;
         list<pair<CTxDestination, int64> > listReceived;
         list<pair<CTxDestination, int64> > listSent;
-        wtx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount);
+        wtx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount, true);
         mapAccountBalances[strSentAccount] -= nFee;
         BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& s, listSent)
             mapAccountBalances[strSentAccount] -= s.second;
@@ -1923,37 +1932,49 @@ Value walletpassphrase(const Array& params, bool fHelp)
     if (!pwalletMain->IsCrypted())
         throw JSONRPCError(-15, "Error: running with an unencrypted wallet, but walletpassphrase was called.");
 
-    if (!pwalletMain->IsLocked())
-        throw JSONRPCError(-17, "Error: Wallet is already unlocked, use walletlock first if need to change unlock settings.");
-
     // Note that the walletpassphrase is stored in params[0] which is not mlock()ed
     SecureString strWalletPass;
     strWalletPass.reserve(100);
+
     // TODO: get rid of this .c_str() by implementing SecureString::operator=(std::string)
     // Alternately, find a way to make params[0] mlock()'d to begin with.
     strWalletPass = params[0].get_str().c_str();
 
-    if (strWalletPass.length() > 0)
-    {
-        if (!pwalletMain->Unlock(strWalletPass))
-            throw JSONRPCError(-14, "Error: The wallet passphrase entered was incorrect.");
-    }
-    else
+    if (strWalletPass.length() == 0)
         throw runtime_error(
             "walletpassphrase <passphrase> <timeout>\n"
             "Stores the wallet decryption key in memory for <timeout> seconds.");
+
+
+    // lock/unlock mint only mode, if password is correct.
+    if (!pwalletMain->CheckPassword(strWalletPass))
+        throw JSONRPCError(-14, "Error: The wallet passphrase entered was incorrect.");
+    else
+    {
+        // ppcoin: if user OS account compromised prevent trivial sendmoney commands
+        if (params.size() > 2)
+            fWalletUnlockMintOnly = params[2].get_bool();
+        else
+            fWalletUnlockMintOnly = false;
+    }
+
+    Object ret;
+    ret.push_back(Pair("mint only", fWalletUnlockMintOnly));
+
+    if (!pwalletMain->IsLocked())
+    {
+        ret.push_back(Pair("info", "Wallet is already unlocked, use walletlock first if need to change unlock settings."));
+        return ret;
+    }
+
+    if (!pwalletMain->Unlock(strWalletPass))
+        throw JSONRPCError(-14, "Error: The wallet passphrase entered was incorrect.");
 
     CreateThread(ThreadTopUpKeyPool, NULL);
     int64* pnSleepTime = new int64(params[1].get_int64());
     CreateThread(ThreadCleanWalletPassphrase, pnSleepTime);
 
-    // ppcoin: if user OS account compromised prevent trivial sendmoney commands
-    if (params.size() > 2)
-        fWalletUnlockMintOnly = params[2].get_bool();
-    else
-        fWalletUnlockMintOnly = false;
-
-    return Value::null;
+    return ret;
 }
 
 
@@ -2705,6 +2726,19 @@ static const CRPCCommand vRPCCommands[] =
     { "sendrawtransaction",     &sendrawtransaction,     false },
     { "decoderawtransaction",   &decoderawtransaction,   false },
 
+    // namecoin commands below:
+    { "name_new",               &name_new,               false },
+    { "name_update",            &name_update,            false },
+    { "name_delete",            &name_delete,            false },
+    { "sendtoname",             &sendtoname,             false },
+    { "name_list",              &name_list,              false },
+    { "name_scan",              &name_scan,               false },
+    { "name_filter",            &name_filter,            false },
+    { "name_show",              &name_show,              false },
+    { "name_debug",             &name_debug,             false },
+//    { "name_encrypt",           &name_encrypt,           false },
+//    { "name_decrypt",           &name_decrypt,           false },
+
     // new non-standard commands
     { "gettxlistfor",           &gettxlistfor,           false },
     { "deletetransaction",      &deletetransaction,      false },
@@ -3346,12 +3380,19 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
     if (strMethod == "signrawtransaction"     && n > 1) ConvertTo<Array>(params[1], true);
     if (strMethod == "signrawtransaction"     && n > 2) ConvertTo<Array>(params[2], true);
 
+    //namecoin
+    if (strMethod == "name_new"               && n > 2) ConvertTo<boost::int64_t>(params[2]);
+    if (strMethod == "name_update"            && n > 2) ConvertTo<boost::int64_t>(params[2]);
+    if (strMethod == "name_filter"            && n > 1) ConvertTo<boost::int64_t>(params[1]);
+    if (strMethod == "name_filter"            && n > 2) ConvertTo<boost::int64_t>(params[2]);
+    if (strMethod == "name_filter"            && n > 3) ConvertTo<boost::int64_t>(params[3]);
+    if (strMethod == "sendtoname"             && n > 1) ConvertTo<double>(params[1]);
+
+    // new commands
     if (strMethod == "gettxlistfor"           && n > 0) ConvertTo<boost::int64_t>(params[0]);
     if (strMethod == "gettxlistfor"           && n > 1) ConvertTo<boost::int64_t>(params[1]);
     if (strMethod == "gettxlistfor"           && n > 3) ConvertTo<boost::int64_t>(params[3]);
     if (strMethod == "gettxlistfor"           && n > 4) ConvertTo<boost::int64_t>(params[4]);
-
-
 
     return params;
 }
