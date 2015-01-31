@@ -1,7 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin Developers
-// Copyright (c) 2011-2012 The PPCoin developers
-// Copyright (c) 2013-2014 The EmerCoin developers
+// Copyright (c) 2011-2013 The PPCoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,7 +11,7 @@
 //      could be used to create visually identical looking account numbers.
 // - A string with non-alphanumeric characters is not as easily accepted as an account number.
 // - E-mail usually won't line-break if there's no punctuation to break at.
-// - Doubleclicking selects the whole number as one word if it's all alphanumeric.
+// - Double-clicking selects the whole number as one word if it's all alphanumeric.
 //
 #ifndef BITCOIN_BASE58_H
 #define BITCOIN_BASE58_H
@@ -23,6 +22,7 @@
 #include "bignum.h"
 #include "key.h"
 #include "script.h"
+#include "allocators.h"
 
 static const char* pszBase58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
@@ -74,7 +74,7 @@ inline std::string EncodeBase58(const std::vector<unsigned char>& vch)
 }
 
 // Decode a base58-encoded string psz into byte vector vchRet
-// returns true if decoding is succesful
+// returns true if decoding is successful
 inline bool DecodeBase58(const char* psz, std::vector<unsigned char>& vchRet)
 {
     CAutoBN_CTX pctx;
@@ -122,7 +122,7 @@ inline bool DecodeBase58(const char* psz, std::vector<unsigned char>& vchRet)
 }
 
 // Decode a base58-encoded string str into byte vector vchRet
-// returns true if decoding is succesful
+// returns true if decoding is successful
 inline bool DecodeBase58(const std::string& str, std::vector<unsigned char>& vchRet)
 {
     return DecodeBase58(str.c_str(), vchRet);
@@ -142,7 +142,7 @@ inline std::string EncodeBase58Check(const std::vector<unsigned char>& vchIn)
 }
 
 // Decode a base58-encoded string psz that includes a checksum, into byte vector vchRet
-// returns true if decoding is succesful
+// returns true if decoding is successful
 inline bool DecodeBase58Check(const char* psz, std::vector<unsigned char>& vchRet)
 {
     if (!DecodeBase58(psz, vchRet))
@@ -163,7 +163,7 @@ inline bool DecodeBase58Check(const char* psz, std::vector<unsigned char>& vchRe
 }
 
 // Decode a base58-encoded string str that includes a checksum, into byte vector vchRet
-// returns true if decoding is succesful
+// returns true if decoding is successful
 inline bool DecodeBase58Check(const std::string& str, std::vector<unsigned char>& vchRet)
 {
     return DecodeBase58Check(str.c_str(), vchRet);
@@ -181,19 +181,13 @@ protected:
     unsigned char nVersion;
 
     // the actually encoded data
-    std::vector<unsigned char> vchData;
+    typedef std::vector<unsigned char, zero_after_free_allocator<unsigned char> > vector_uchar;
+    vector_uchar vchData;
 
     CBase58Data()
     {
         nVersion = 0;
         vchData.clear();
-    }
-
-    ~CBase58Data()
-    {
-        // zero the memory, as it may contain sensitive data
-        if (!vchData.empty())
-            memset(&vchData[0], 0, vchData.size());
     }
 
     void SetData(int nVersionIn, const void* pdata, size_t nSize)
@@ -224,7 +218,7 @@ public:
         vchData.resize(vchTemp.size() - 1);
         if (!vchData.empty())
             memcpy(&vchData[0], &vchTemp[1], vchData.size());
-        memset(&vchTemp[0], 0, vchTemp.size());
+        OPENSSL_cleanse(&vchTemp[0], vchData.size());
         return true;
     }
 
@@ -256,10 +250,10 @@ public:
     bool operator> (const CBase58Data& b58) const { return CompareTo(b58) >  0; }
 };
 
-/** base58-encoded emercoin addresses.
- * Public-key-hash-addresses have version 55 (or 111 testnet).
+/** base58-encoded bitcoin addresses.
+ * emercoin public-key-hash-addresses have version 33 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
- * Script-hash-addresses have version 117 (or 196 testnet).
+ * Script-hash-addresses have version 92 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
 class CBitcoinAddress;
@@ -279,8 +273,8 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 33,  //55 emercoin: addresses begin with 'E'
-        SCRIPT_ADDRESS = 92, //117 emercoin: addresses begin with 'e'
+        PUBKEY_ADDRESS = 33,  // emercoin: addresses begin with 'E'
+        SCRIPT_ADDRESS = 92,  // emercoin: addresses begin with 'e'
         PUBKEY_ADDRESS_TEST = 111,
         SCRIPT_ADDRESS_TEST = 196,
     };
@@ -406,7 +400,7 @@ class CBitcoinSecret : public CBase58Data
 {
 public:
     void SetSecret(const CSecret& vchSecret, bool fCompressed)
-    { 
+    {
         assert(vchSecret.size() == 32);
         SetData(128 + (fTestNet ? CBitcoinAddress::PUBKEY_ADDRESS_TEST : CBitcoinAddress::PUBKEY_ADDRESS), &vchSecret[0], vchSecret.size());
         if (fCompressed)
@@ -460,4 +454,4 @@ public:
     }
 };
 
-#endif
+#endif // BITCOIN_BASE58_H

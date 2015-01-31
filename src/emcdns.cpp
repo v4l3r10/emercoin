@@ -102,7 +102,7 @@ int EmcDns::Reset(const char *bind_ip, uint16_t port_no,
     shutdown(m_sockfd, SHUT_RDWR);
 #endif
     closesocket(m_sockfd);
-    Sleep(100); // Allow 0.1s external thread to exit
+    MilliSleep(100); // Allow 0.1s external thread to exit
 #ifndef WIN32
     // pthread_join(m_thread, NULL);
 #endif
@@ -250,18 +250,14 @@ int EmcDns::Reset(const char *bind_ip, uint16_t port_no,
       } // while
     } //  if(local_len)
 
-    // Create own listener, only if GUI; 
-    // Otherwise, Run() will be called from AppInit2
-#ifdef QT_GUI
     // Create listener thread
-    if (!CreateThread(StatRun, this))
+    if (!NewThread(StatRun, this))
     {
       perror("EmcDns::Reset: Cannot create thread");
       closesocket(m_sockfd);
       free(m_value);
       return -6; // cannot create inner thread
     }
-#endif
 
     if(m_verbose > 0)
 	 printf("EmcDns::Reset: Created/Attached: %s:%u; Qty=%u:%u\n", 
@@ -409,7 +405,7 @@ uint16_t EmcDns::HandleQuery() {
   *--key_end = 0; // Remove last dot, set EOLN
 
   if(m_verbose > 3) 
-    printf("EmcDns::HandleQuery: Translated domain name: [%s]; DomainsQty=%u\n", key, domain_ndx_p - domain_ndx);
+    printf("EmcDns::HandleQuery: Translated domain name: [%s]; DomainsQty=%li\n", key, domain_ndx_p - domain_ndx);
 
   uint16_t qtype  = *m_rcv++; qtype  = (qtype  << 8) + *m_rcv++; 
   uint16_t qclass = *m_rcv++; qclass = (qclass << 8) + *m_rcv++;
@@ -473,7 +469,7 @@ uint16_t EmcDns::HandleQuery() {
     if(m_allowed_qty) { // Activated TLD-filter
       if(*p != '.') {
         if(m_verbose > 3) 
-  	  printf("EmcDns::HandleQuery: TLD-suffix is not specified in given key=%s; return NXDOMAIN\n", p, key);
+      printf("EmcDns::HandleQuery: TLD-suffix=[.%s] is not specified in given key=%s; return NXDOMAIN\n", p, key);
 	return 3; // TLD-suffix is not specified, so NXDOMAIN
       } 
       p++; // Set PTR after dot, to the suffix
@@ -697,8 +693,8 @@ int EmcDns::Search(uint8_t *key) {
   if(m_verbose > 1) 
     printf("EmcDns::Search(%s)\n", key);
 
-  string value;
-  if (!hooks->getNameValue(string("dns:") + (const char *)key, value))
+  std::string value;
+  if (!hooks->getNameValue(std::string("dns:") + (const char *)key, value))
     return 0;
 
   strcpy(m_value, value.c_str());

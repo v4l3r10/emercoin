@@ -2,12 +2,12 @@
 #define GUICONSTANTS_H
 
 /* Milliseconds between model updates */
-static const int MODEL_UPDATE_DELAY = 2000;
+static const int MODEL_UPDATE_DELAY = 250;
 
-/* Maximum  passphrase length */
+/* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
-/* Size of icons in status bar */
+/* BitcoinGUI -- Size of icons in status bar */
 static const int STATUSBAR_ICONSIZE = 16;
 
 /* Invalid field background style */
@@ -20,8 +20,15 @@ static const int STATUSBAR_ICONSIZE = 16;
 /* Transaction list -- bare address (without label) */
 #define COLOR_BAREADDRESS QColor(140, 140, 140)
 
-// Should be set to MAX_VALUE_LENGTH (from namecoin.h) when it's supported by the network
-// (currently due to limitations of CScript the limit is 519 bytes)
-static const int GUI_MAX_VALUE_LENGTH = 519;
+/* Tooltips longer than this (in characters) are converted into rich text,
+   so that they can be word-wrapped.
+ */
+static const int TOOLTIP_WRAP_THRESHOLD = 80;
+
+/* Maximum allowed URI length */
+static const int MAX_URI_LENGTH = 255;
+
+/* QRCodeDialog -- size of exported QR Code image */
+#define EXPORT_IMAGE_SIZE 256
 
 #endif // GUICONSTANTS_H

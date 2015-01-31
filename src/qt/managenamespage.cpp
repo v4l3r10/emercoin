@@ -19,6 +19,8 @@
 #include <QScrollBar>
 #include <QFileDialog>
 
+using namespace std;
+
 //
 // NameFilterProxyModel
 //
@@ -139,7 +141,7 @@ ManageNamesPage::ManageNamesPage(QWidget *parent) :
     ui->registerName->setMaxLength(MAX_NAME_LENGTH);
 
     ui->nameFilter->setMaxLength(MAX_NAME_LENGTH);
-    ui->valueFilter->setMaxLength(GUI_MAX_VALUE_LENGTH);
+    ui->valueFilter->setMaxLength(MAX_VALUE_LENGTH);
     GUIUtil::setupAddressWidget(ui->addressFilter, this);
 
 #if QT_VERSION >= 0x040700
@@ -227,7 +229,6 @@ void ManageNamesPage::changedAddressFilter(const QString &filter)
     proxyModel->setAddressSearch(filter);
 }
 
-//TODO finish this
 void ManageNamesPage::on_submitNameButton_clicked()
 {
     if (!walletModel)
@@ -517,7 +518,7 @@ void ManageNamesPage::on_cbMyNames_stateChanged(int arg1)
         model->fMyNames = false;
     else if (ui->cbMyNames->checkState() == Qt::Checked)
         model->fMyNames = true;
-    model->update(true);
+    model->update();
 }
 
 void ManageNamesPage::on_cbOtherNames_stateChanged(int arg1)
@@ -526,7 +527,7 @@ void ManageNamesPage::on_cbOtherNames_stateChanged(int arg1)
         model->fOtherNames = false;
     else if (ui->cbOtherNames->checkState() == Qt::Checked)
         model->fOtherNames = true;
-    model->update(true);
+    model->update();
 }
 
 void ManageNamesPage::on_cbExpired_stateChanged(int arg1)
@@ -535,7 +536,7 @@ void ManageNamesPage::on_cbExpired_stateChanged(int arg1)
         model->fExpired = false;
     else if (ui->cbExpired->checkState() == Qt::Checked)
         model->fExpired = true;
-    model->update(true);
+    model->update();
 }
 
 void ManageNamesPage::on_importValueButton_clicked()

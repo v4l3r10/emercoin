@@ -2,7 +2,10 @@
 #define GUIUTIL_H
 
 #include <QString>
+#include <QObject>
 #include <QMessageBox>
+
+class SendCoinsRecipient;
 
 QT_BEGIN_NAMESPACE
 class QFont;
@@ -12,9 +15,8 @@ class QDateTime;
 class QUrl;
 class QAbstractItemView;
 QT_END_NAMESPACE
-class SendCoinsRecipient;
 
-/** Utility functions used by the Emercoin Qt UI.
+/** Utility functions used by the Bitcoin Qt UI.
  */
 namespace GUIUtil
 {
@@ -22,15 +24,15 @@ namespace GUIUtil
     QString dateTimeStr(const QDateTime &datetime);
     QString dateTimeStr(qint64 nTime);
 
-    // Render emercoin addresses in monospace font
+    // Render Bitcoin addresses in monospace font
     QFont bitcoinAddressFont();
 
     // Set up widgets for address and amounts
     void setupAddressWidget(QLineEdit *widget, QWidget *parent);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "emercoin:" URI into recipient object, return true on succesful parsing
-    // See Emercoin URI definition discussion here: https://bitcointalk.org/index.php?topic=33490.0
+    // Parse "bitcoin:" URI into recipient object, return true on successful parsing
+    // See Bitcoin URI definition discussion here: https://bitcointalk.org/index.php?topic=33490.0
     bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out);
     bool parseBitcoinURI(QString uri, SendCoinsRecipient *out);
 
@@ -46,7 +48,7 @@ namespace GUIUtil
      */
     void copyEntryData(QAbstractItemView *view, int column, int role=Qt::EditRole);
 
-    /** Get save file name, mimics QFileDialog::getSaveFileName, except that it appends a default suffix
+    /** Get save filename, mimics QFileDialog::getSaveFileName, except that it appends a default suffix
         when no suffix is provided by the user.
 
       @param[in] parent  Parent window (or 0)
@@ -73,7 +75,28 @@ namespace GUIUtil
     // Open debug.log
     void openDebugLogfile();
 
-    /** Help message for Emercoin-Qt, shown with --help. */
+    /** Qt event filter that intercepts ToolTipChange events, and replaces the tooltip with a rich text
+      representation if needed. This assures that Qt can word-wrap long tooltip messages.
+      Tooltips longer than the provided size threshold (in characters) are wrapped.
+     */
+    class ToolTipToRichTextFilter : public QObject
+    {
+        Q_OBJECT
+
+    public:
+        explicit ToolTipToRichTextFilter(int size_threshold, QObject *parent = 0);
+
+    protected:
+        bool eventFilter(QObject *obj, QEvent *evt);
+
+    private:
+        int size_threshold;
+    };
+
+    bool GetStartOnSystemStartup();
+    bool SetStartOnSystemStartup(bool fAutoStart);
+
+    /** Help message for Bitcoin-Qt, shown with --help. */
     class HelpMessageBox : public QMessageBox
     {
         Q_OBJECT

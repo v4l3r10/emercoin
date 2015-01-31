@@ -7,6 +7,7 @@
 #include <QTimer>
 
 #include "wallet.h"
+using namespace std;
 
 // ExpiresIn column is right-aligned as it contains numbers
 static int column_alignments[] = {
@@ -198,10 +199,6 @@ NameTableModel::NameTableModel(CWallet *wallet, WalletModel *parent) :
     fOtherNames = false;
     fExpired = false;
     priv->refreshNameTable(fMyNames, fOtherNames, fExpired);
-
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(MODEL_UPDATE_DELAY);
 }
 
 NameTableModel::~NameTableModel()
@@ -209,15 +206,11 @@ NameTableModel::~NameTableModel()
     delete priv;
 }
 
-void NameTableModel::update(bool forced)
+void NameTableModel::update()
 {
     // just do a complete table refresh, for simplicity sake
-    if (wallet->vCheckNewNames.size() > 0 || nBestHeight != cachedNumBlocks || forced)
-    {
-        priv->refreshNameTable(fMyNames, fOtherNames, fExpired);
-        wallet->vCheckNewNames.clear();
-        cachedNumBlocks = nBestHeight;
-    }
+    // TODO: redo this to allow increment updates, just like in TransactionTableModel::updateTransaction
+    priv->refreshNameTable(fMyNames, fOtherNames, fExpired);
 }
 
 int NameTableModel::rowCount(const QModelIndex &parent /* = QModelIndex()*/) const
