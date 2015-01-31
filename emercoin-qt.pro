@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = emercoin-qt
 macx:TARGET = "Emercoin-Qt"
-VERSION = 0.3.1
+VERSION = 0.3.2.0
 INCLUDEPATH += src src/json src/qt
 QT += network
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE

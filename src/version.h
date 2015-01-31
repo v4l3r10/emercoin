@@ -25,7 +25,7 @@ extern const std::string CLIENT_DATE;
 // emercoin version - intended for display purpose
 #define EMERCOIN_VERSION_MAJOR       0
 #define EMERCOIN_VERSION_MINOR       3
-#define EMERCOIN_VERSION_REVISION    1
+#define EMERCOIN_VERSION_REVISION    2
 #define EMERCOIN_VERSION_BUILD       0
 
 static const int EMERCOIN_VERSION =
