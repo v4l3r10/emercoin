@@ -222,7 +222,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/namecoin.h \
     src/qt/nametablemodel.h \
     src/qt/managenamespage.h \
-    src/emcdns.h
+    src/emcdns.h \
+    src/qt/clickablelabel.h
 
 SOURCES += src/qt/bitcoin.cpp \
     src/qt/bitcoingui.cpp \

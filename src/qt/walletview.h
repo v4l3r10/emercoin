@@ -103,6 +103,7 @@ public slots:
     void unlockWallet();
 
     void setEncryptionStatus();
+    void on_labelEncryptionIcon_clicked();
 
 signals:
     /** Signal that we want to show the main window */

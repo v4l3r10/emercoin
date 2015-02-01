@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QMap>
+#include "clickablelabel.h"
 
 class TransactionTableModel;
 class WalletFrame;
@@ -69,6 +70,8 @@ public:
     QAction * getSendCoinsAction() { return sendCoinsAction; }
     QAction * getManageNamesAction() { return manageNamesAction; }
 
+    ClickableLockLabel *labelEncryptionIcon; // emercoin: changed from private to public
+
 protected:
     void changeEvent(QEvent *e);
     void closeEvent(QCloseEvent *event);
@@ -80,7 +83,6 @@ private:
     ClientModel *clientModel;
     WalletFrame *walletFrame;
 
-    QLabel *labelEncryptionIcon;
     QLabel *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;

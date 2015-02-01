@@ -132,6 +132,7 @@ void WalletView::setWalletModel(WalletModel *walletModel)
 
         // Ask for passphrase if needed
         connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
+        connect(gui->labelEncryptionIcon, SIGNAL(clicked()), this, SLOT(on_labelEncryptionIcon_clicked()));
     }
 }
 
@@ -282,4 +283,12 @@ void WalletView::unlockWallet()
         dlg.setModel(walletModel);
         dlg.exec();
     }
+}
+
+void WalletView::on_labelEncryptionIcon_clicked()
+{
+    if (walletModel->getEncryptionStatus() == WalletModel::Unlocked)
+        walletModel->setWalletLocked(true);
+    else
+        unlockWallet();
 }
