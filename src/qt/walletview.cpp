@@ -287,8 +287,15 @@ void WalletView::unlockWallet()
 
 void WalletView::on_labelEncryptionIcon_clicked()
 {
+    if(!walletModel)
+        return;
+
     if (walletModel->getEncryptionStatus() == WalletModel::Unlocked)
         walletModel->setWalletLocked(true);
     else
-        unlockWallet();
+    {
+        AskPassphraseDialog dlg(AskPassphraseDialog::UnlockExtended, this);
+        dlg.setModel(walletModel);
+        dlg.exec();
+    }
 }

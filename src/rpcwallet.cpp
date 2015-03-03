@@ -1377,6 +1377,13 @@ Value walletpassphrase(const Array& params, bool fHelp)
     return Value::null;
 }
 
+// Used only in one place - WalletModel::setWalletLocked.
+void relockWalletAfterDuration(int64 seconds)
+{
+    NewThread(ThreadTopUpKeyPool, NULL);  // what does this do exactly?
+    int64* pnSleepTime = new int64(seconds);
+    NewThread(ThreadCleanWalletPassphrase, pnSleepTime);
+}
 
 Value walletpassphrasechange(const Array& params, bool fHelp)
 {
