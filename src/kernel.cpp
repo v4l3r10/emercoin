@@ -14,8 +14,8 @@ using namespace std;
 unsigned int nProtocolV03SwitchTime     = 1363800000;
 unsigned int nProtocolV03TestSwitchTime = 1359781000;
 // Protocol switch time of v0.4 kernel protocol
-unsigned int nProtocolV04SwitchTime     = 1499300000;
-unsigned int nProtocolV04TestSwitchTime = 1495700000;
+unsigned int nProtocolV04SwitchTime     = 1430438400; // Fri, 01 May 2015 00:00:00 GMT
+unsigned int nProtocolV04TestSwitchTime = 1430438400; // Fri, 01 May 2015 00:00:00 GMT
 
 // Modifier interval: time to elapse before new modifier is computed
 // Set to 6-hour for production network and 20-minute for test network

@@ -1,4 +1,4 @@
-Emercoin (EMC) 0.3.1 BETA
+Emercoin (EMC) 0.4.0 BETA
 
 Copyright (c) 2011-2014 Emercoin (EMC) Developers
 Distributed under the MIT/X11 software license, see the accompanying
