@@ -1614,9 +1614,8 @@ Value gettxlistfor(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 3 || params.size() > 5)
         throw runtime_error(
-                "gettxlistfor <from block> <to block> <address> [type=0] [verbose=0]\n"
+                "gettxlistfor <from block> <to block> <address> [type=0]\n"
                 "[type]: 0 - sent/recieved, 1 - recieved, 2 - sent\n"
-                "[verbose]: 0 - false, 1 - true\n"
                 );
 
     int nFromHeight = params[0].get_int();
@@ -1644,20 +1643,15 @@ Value gettxlistfor(const Array& params, bool fHelp)
             throw runtime_error("[verbose] must be 0 or 1");
     }
 
-    CBlockIndex* pblockindex = mapBlockIndex[hashBestChain];
-
-    while (pblockindex->pprev && pblockindex->nHeight > nFromHeight)
-    {
-        pblockindex = pblockindex->pprev;
-    }
+    CBlockIndex* pblockindex = FindBlockByHeight(nFromHeight);
 
     Array res;
+    map<uint256, CTransaction> mapFoundTx;
     while (pblockindex->nHeight <= nToHeight)
     {
         CBlock block;
         block.ReadFromDisk(pblockindex);
 
-        map<uint256, CTransaction> mapFoundTx;
 
         // recieved by searchAddress
         Array recieved;
@@ -1665,8 +1659,8 @@ Value gettxlistfor(const Array& params, bool fHelp)
         {
             bool found = false;
             int64 nValueOut = 0;
-            Array vouts;
-            int voutNumber = 0;
+            //Array vouts;
+            //int voutNumber = 0;
 
             BOOST_FOREACH(const CTxOut& txout, tx.vout)
             {
@@ -1682,49 +1676,16 @@ Value gettxlistfor(const Array& params, bool fHelp)
                         mapFoundTx[tx.GetHash()] = tx;
                         found = true;
                         nValueOut += txout.nValue;
-                        vouts.push_back(voutNumber);
-                        break;
+                        //vouts.push_back(voutNumber);
                     }
-                voutNumber++;
+                //voutNumber++;
             }
 
             if (found && (type == 0 || type == 1))
             {
-                // get senders info
-                // TODO: check wich one has spent it
-                Array prev_owners;
-                if (verbose)
-                {
-                    set<string> sPrewOwners;
-                    BOOST_FOREACH(const CTxIn& txin, tx.vin)
-                    {
-                        // redo this, because it might not show spent outputs
-                        CCoins prev;
-                        if(!pcoinsTip->GetCoins(txin.prevout.hash, prev))
-                            continue;
-
-                        txnouttype type;
-                        vector<CTxDestination> addresses;
-                        int nRequired;
-                        if (!ExtractDestinations(prev.vout[txin.prevout.n].scriptPubKey, type, addresses, nRequired))
-                            continue;
-
-                        BOOST_FOREACH(const CTxDestination& addr, addresses) // 1 txout can contain more than 1 address
-                            sPrewOwners.insert(CBitcoinAddress(addr).ToString());
-                    }
-
-                    BOOST_FOREACH(string addr, sPrewOwners)
-                        prev_owners.push_back(addr);
-                }
-
                 Object txinfo;
                 txinfo.push_back(Pair("txid", tx.GetHash().ToString()));
-                if (verbose)
-                {
-                    txinfo.push_back(Pair("vout", vouts));
-                    txinfo.push_back(Pair("prev_owners", prev_owners));
-                    txinfo.push_back(Pair("amount", ValueFromAmount(nValueOut)));
-                }
+                txinfo.push_back(Pair("amount", ValueFromAmount(nValueOut)));
                 txinfo.push_back(Pair("date", DateTimeStrFormat(tx.nTime)));
                 recieved.push_back(txinfo);
             }
@@ -1734,36 +1695,34 @@ Value gettxlistfor(const Array& params, bool fHelp)
         Array sent;
         BOOST_FOREACH (const CTransaction& tx, block.vtx)
         {
+            // TODO: add send amount info. sendAmount = txValueIn - changeToSelf.
             bool found = false;
 
             BOOST_FOREACH(const CTxIn& txin, tx.vin)
             {
-                if (!mapFoundTx.count(txin.prevout.hash))
-                    continue;
-                found = true;
-
-                //CTransaction prevTx = mapFoundTx[txin.prevout.hash];
-                //int64 nValueIn = prevTx.vout[txin.prevout.n].nValue;
+                if (mapFoundTx.count(txin.prevout.hash))
+                {
+                    found = true;
+                    break;
+                }
             }
 
             if (found && (type == 0 || type == 2))
             {
                 Object txinfo;
                 txinfo.push_back(Pair("txid", tx.GetHash().ToString()));
-                //txinfo.push_back(Pair("reciever", vouts));
-                //txinfo.push_back(Pair("amount", ValueFromAmount(nValueOut)));
                 txinfo.push_back(Pair("date", DateTimeStrFormat(tx.nTime)));
                 sent.push_back(txinfo);
             }
         }
 
+        Object blockinfo;
         if (!recieved.empty() || !sent.empty())
         {
-            Object blockinfo;
             blockinfo.push_back(Pair("height", (pblockindex->nHeight == std::numeric_limits<int>::max() ? 0 : pblockindex->nHeight)));
-            if (type == 0 || type == 1)
+            if (!recieved.empty() && (type == 0 || type == 1))
                 blockinfo.push_back(Pair("recieved", recieved));
-            if (type == 0 || type == 2)
+            if (!sent.empty() && (type == 0 || type == 2))
                 blockinfo.push_back(Pair("sent", sent));
             res.push_back(blockinfo);
         }

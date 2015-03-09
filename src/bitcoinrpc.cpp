@@ -553,7 +553,7 @@ static const CRPCCommand vRPCCommands[] =
     { "name_show",              &name_show,              false,     false },
     { "name_debug",             &name_debug,             false,     false },
 // new non-standard commands
-//    { "gettxlistfor",           &gettxlistfor,           false,     false },
+    { "gettxlistfor",           &gettxlistfor,           false,     false },
     { "deletetransaction",      &deletetransaction,      false,     false },
 #ifdef TESTING
     { "generatestake",          &generatestake,          true,      false },
@@ -1503,10 +1503,10 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
     if (strMethod == "name_filter"            && n > 3) ConvertTo<boost::int64_t>(params[3]);
     if (strMethod == "sendtoname"             && n > 1) ConvertTo<double>(params[1]);
 // new commands
-//    if (strMethod == "gettxlistfor"           && n > 0) ConvertTo<boost::int64_t>(params[0]);
-//    if (strMethod == "gettxlistfor"           && n > 1) ConvertTo<boost::int64_t>(params[1]);
-//    if (strMethod == "gettxlistfor"           && n > 3) ConvertTo<boost::int64_t>(params[3]);
-//    if (strMethod == "gettxlistfor"           && n > 4) ConvertTo<boost::int64_t>(params[4]);
+    if (strMethod == "gettxlistfor"           && n > 0) ConvertTo<boost::int64_t>(params[0]);
+    if (strMethod == "gettxlistfor"           && n > 1) ConvertTo<boost::int64_t>(params[1]);
+    if (strMethod == "gettxlistfor"           && n > 3) ConvertTo<boost::int64_t>(params[3]);
+    if (strMethod == "gettxlistfor"           && n > 4) ConvertTo<boost::int64_t>(params[4]);
 
 #ifdef TESTING
     if (strMethod == "timetravel"             && n > 0) ConvertTo<boost::int64_t>(params[0]);
