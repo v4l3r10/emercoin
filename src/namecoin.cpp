@@ -1326,7 +1326,7 @@ Value name_update(const Array& params, bool fHelp)
     string strAddress = "";
     if (params.size() == 4)
         strAddress = params[3].get_str();
-    printf("vchValue.size = %lu\n", vchValue.size());
+    printf("vchValue.size = %lu\n", (unsigned long)vchValue.size());
 
     NameTxReturn ret = name_update(vchName, vchValue, nRentalDays, strAddress);
     if (!ret.ok)

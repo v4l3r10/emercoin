@@ -55,14 +55,13 @@ struct StunSrv {
 };
 
 /*---------------------------------------------------------------------*/
-static const int StunSrvListQty = 263; // Must be PRIME!!!!!
+static const int StunSrvListQty = 239; // Must be PRIME!!!!!
 
-static struct StunSrv StunSrvList[263] = {
+static struct StunSrv StunSrvList[239] = {
+
 {"23.21.150.121",	3478},
 {"iphone-stun.strato-iphone.de",	3478},
 {"numb.viagenie.ca",	3478},
-{"s1.taraba.net",	3478},
-{"s2.taraba.net",	3478},
 {"stun.12connect.com",	3478},
 {"stun.12voip.com",	3478},
 {"stun.1und1.de",	3478},
@@ -72,15 +71,12 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.3cx.com",	3478},
 {"stun.a-mm.tv",	3478},
 {"stun.aa.net.uk",	3478},
-{"stun.acrobits.cz",	3478},
 {"stun.actionvoip.com",	3478},
 {"stun.advfn.com",	3478},
 {"stun.aeta-audio.com",	3478},
 {"stun.aeta.com",	3478},
 {"stun.alltel.com.au",	3478},
 {"stun.altar.com.pl",	3478},
-{"stun.annatel.net",	3478},
-{"stun.arbuz.ru",	3478},
 {"stun.avigora.com",	3478},
 {"stun.avigora.fr",	3478},
 {"stun.awa-shima.com",	3478},
@@ -96,14 +92,12 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.cablenet-as.net",	3478},
 {"stun.callromania.ro",	3478},
 {"stun.callwithus.com",	3478},
-{"stun.cbsys.net",	3478},
 {"stun.chathelp.ru",	3478},
 {"stun.cheapvoip.com",	3478},
 {"stun.ciktel.com",	3478},
 {"stun.cloopen.com",	3478},
 {"stun.colouredlines.com.au",	3478},
 {"stun.comfi.com",	3478},
-{"stun.commpeak.com",	3478},
 {"stun.comtube.com",	3478},
 {"stun.comtube.ru",	3478},
 {"stun.cope.es",	3478},
@@ -111,11 +105,8 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.counterpath.net",	3478},
 {"stun.cryptonit.net",	3478},
 {"stun.darioflaccovio.it",	3478},
-{"stun.datamanagement.it",	3478},
 {"stun.dcalling.de",	3478},
-{"stun.decanet.fr",	3478},
 {"stun.demos.ru",	3478},
-{"stun.develz.org",	3478},
 {"stun.dingaling.ca",	3478},
 {"stun.doublerobotics.com",	3478},
 {"stun.drogon.net",	3478},
@@ -149,11 +140,9 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.internetcalls.com",	3478},
 {"stun.intervoip.com",	3478},
 {"stun.ipcomms.net",	3478},
-{"stun.ipfire.org",	3478},
 {"stun.ippi.fr",	3478},
 {"stun.ipshka.com",	3478},
 {"stun.iptel.org",	3478},
-{"stun.irian.at",	3478},
 {"stun.it1.hr",	3478},
 {"stun.ivao.aero",	3478},
 {"stun.jappix.com",	3478},
@@ -170,10 +159,8 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.lugosoft.com",	3478},
 {"stun.lundimatin.fr",	3478},
 {"stun.magnet.ie",	3478},
-{"stun.manle.com",	3478},
 {"stun.mgn.ru",	3478},
 {"stun.mit.de",	3478},
-{"stun.mitake.com.tw",	3478},
 {"stun.miwifi.com",	3478},
 {"stun.modulus.gr",	3478},
 {"stun.mozcom.com",	3478},
@@ -183,7 +170,6 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.neotel.co.za",	3478},
 {"stun.netappel.com",	3478},
 {"stun.netappel.fr",	3478},
-{"stun.netgsm.com.tr",	3478},
 {"stun.nfon.net",	3478},
 {"stun.noblogs.org",	3478},
 {"stun.noc.ams-ix.net",	3478},
@@ -194,8 +180,6 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.nventure.com",	3478},
 {"stun.on.net.mk",	3478},
 {"stun.ooma.com",	3478},
-{"stun.ooonet.ru",	3478},
-{"stun.outland-net.de",	3478},
 {"stun.ozekiphone.com",	3478},
 {"stun.patlive.com",	3478},
 {"stun.personal-voip.de",	3478},
@@ -208,11 +192,9 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.powervoip.com",	3478},
 {"stun.ppdi.com",	3478},
 {"stun.prizee.com",	3478},
-{"stun.qq.com",	3478},
 {"stun.qvod.com",	3478},
 {"stun.rackco.com",	3478},
 {"stun.rapidnet.de",	3478},
-{"stun.rb-net.com",	3478},
 {"stun.remote-learner.net",	3478},
 {"stun.rixtelecom.se",	3478},
 {"stun.rockenstein.de",	3478},
@@ -238,7 +220,6 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.smartvoip.com",	3478},
 {"stun.smsdiscount.com",	3478},
 {"stun.snafu.de",	3478},
-{"stun.softjoys.com",	3478},
 {"stun.solcon.nl",	3478},
 {"stun.solnet.ch",	3478},
 {"stun.sonetel.com",	3478},
@@ -255,7 +236,6 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.t-online.de",	3478},
 {"stun.tagan.ru",	3478},
 {"stun.tatneft.ru",	3478},
-{"stun.teachercreated.com",	3478},
 {"stun.tel.lu",	3478},
 {"stun.telbo.com",	3478},
 {"stun.telefacil.com",	3478},
@@ -309,7 +289,6 @@ static struct StunSrv StunSrvList[263] = {
 {"stun.wwdl.net",	3478},
 {"stun.xs4all.nl",	3478},
 {"stun.xtratelecom.es",	3478},
-{"stun.yesss.at",	3478},
 {"stun.zadarma.com",	3478},
 {"stun.zadv.com",	3478},
 {"stun.zoiper.com",	3478},
@@ -318,11 +297,11 @@ static struct StunSrv StunSrvList[263] = {
 {"stun1.voiceeclipse.net",	3478},
 {"stun2.l.google.com",	19302},
 {"stun3.l.google.com",	19302},
-{"stun4.l.google.com",	19302},
-{"stunserver.org",	3478},
-{"stun.antisip.com",    3478}
+{"stun4.l.google.com",	19302}
 };
 
+
+/*---------------------------------------------------------------------*/
 
 /* wrapper to send an STUN message */
 static int stun_send(int s, struct sockaddr_in *dst, struct stun_header *resp)
