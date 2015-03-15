@@ -987,7 +987,8 @@ int64 CWallet::GetImmatureBalance() const
 }
 
 // populate vCoins with vector of spendable COutputs
-void CWallet::AvailableCoins(vector<COutput>& vCoins, unsigned int nSpendTime, bool fOnlyConfirmed) const
+// nSpendTime == 0 will ignore nSpendTime check
+void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, unsigned int nSpendTime) const
 {
     vCoins.clear();
 
@@ -1003,7 +1004,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, unsigned int nSpendTime, b
             if (fOnlyConfirmed && !pcoin->IsConfirmed())
                 continue;
 
-            if (pcoin->nTime > nSpendTime)
+            if (nSpendTime > 0 && pcoin->nTime > nSpendTime)
                 continue;  // ppcoin: timestamp must not exceed spend time
 
             if ((pcoin->IsCoinBase() || pcoin->IsCoinStake()) && pcoin->GetBlocksToMaturity() > 0)
@@ -1173,7 +1174,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, int nConfMine, int nConfThe
 bool CWallet::SelectCoins(int64 nTargetValue, unsigned int nSpendTime, set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, int64& nValueRet) const
 {
     vector<COutput> vCoins;
-    AvailableCoins(vCoins, nSpendTime);
+    AvailableCoins(vCoins, true, nSpendTime);
 
     return (SelectCoinsMinConf(nTargetValue, 1, 6, vCoins, setCoinsRet, nValueRet) ||
             SelectCoinsMinConf(nTargetValue, 1, 1, vCoins, setCoinsRet, nValueRet) ||
