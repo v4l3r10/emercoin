@@ -647,32 +647,64 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
     strSentAccount = strFromAccount;
 
     // Compute fee:
-    int64 nDebit = GetDebit();
+    int64_t nDebit = GetDebit();
     if (nDebit > 0) // debit>0 means we signed/sent this transaction
     {
-        int64 nValueOut = GetValueOut();
+        int64_t nValueOut = GetValueOut();
         nFee = nDebit - nValueOut;
+    }
+
+    // treat coinstake as a single "recieve" entry
+    if (IsCoinStake())
+    {
+        // get address
+        CTxDestination address;
+        BOOST_FOREACH(const CTxOut& txout, vout)
+        {
+            if (pwallet->IsMine(txout) && ExtractDestination(txout.scriptPubKey, address))
+                break;
+            else
+                address = CNoDestination();
+        }
+
+        // nfee is negative for coinstake generation, because we are gaining money from it
+        listReceived.push_back(make_pair(address, -nFee));
+        return;
     }
 
     // Sent/received.
     BOOST_FOREACH(const CTxOut& txout, vout)
     {
-        CTxDestination address;
-        vector<unsigned char> vchPubKey;
-        if (!ExtractDestination(txout.scriptPubKey, address))
+        bool fIsMine;
+        // Only need to handle txouts if AT LEAST one of these is true:
+        //   1) they debit from us (sent)
+        //   2) the output is to us (received)
+        if (nDebit > 0)
         {
-            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
-                   this->GetHash().ToString().c_str());
+            // Don't report 'change' txouts
+            if (pwallet->IsChange(txout))
+                continue;
+            fIsMine = pwallet->IsMine(txout);
         }
-
-        // Don't report 'change' txouts
-        if (nDebit > 0 && pwallet->IsChange(txout))
+        else if (!(fIsMine = pwallet->IsMine(txout)))
             continue;
 
+        // In either case, we need to get the destination address
+        CTxDestination address;
+        if (!ExtractDestination(txout.scriptPubKey, address))
+        {
+            // TODO: maybe add address exctraction from namecoin tx?
+            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
+                     this->GetHash().ToString().c_str());
+            address = CNoDestination();
+        }
+
+        // If we are debited by the transaction, add the output as a "sent" entry
         if (nDebit > 0)
             listSent.push_back(make_pair(address, txout.nValue));
 
-        if (pwallet->IsMine(txout) || (!ignoreNameTx && hooks->IsMine(txout)))
+        // If we are receiving the output, add it as a "received" entry
+        if (fIsMine || (!ignoreNameTx && hooks->IsMine(txout)))
             listReceived.push_back(make_pair(address, txout.nValue));
     }
 
