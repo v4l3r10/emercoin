@@ -8,7 +8,7 @@ namespace Ui {
 }
 class ClientModel;
 
-/** Local Emercoin RPC console. */
+/** Local Bitcoin RPC console. */
 class RPCConsole: public QDialog
 {
     Q_OBJECT
@@ -35,7 +35,7 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     /** open the debug.log from the current datadir */
     void on_openDebugLogfileButton_clicked();
-    /** display messagebox with program parameters (same as emercoin-qt --help) */
+    /** display messagebox with program parameters (same as bitcoin-qt --help) */
     void on_showCLOptionsButton_clicked();
 
 public slots:
@@ -44,7 +44,7 @@ public slots:
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */
-    void setNumBlocks(int count);
+    void setNumBlocks(int count, int countOfPeers);
     /** Go forward or back in history */
     void browseHistory(int offset);
     /** Scroll console view to end */

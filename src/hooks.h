@@ -5,40 +5,32 @@
 #ifndef BITCOIN_HOOKS_H
 #define BITCOIN_HOOKS_H
 
-class CWalletTx;
 class CScript;
 class CTransaction;
-class CTxDB;
-class uint256;
-class CTxIndex;
 class CBlockIndex;
-class CDiskTxPos;
-class CBlock;
 class CTxOut;
+struct nameTempProxy;
 
-#include <map>
 #include <vector>
 #include <string>
-using namespace std;
 
 class CHooks
 {
 public:
-    virtual bool IsStandardNameTx(CTxDB& txdb, const CTransaction& tx, bool fCheckNameFee) = 0;
-    virtual bool DisconnectInputs(CTxDB& txdb,
-            const CTransaction& tx) = 0;
-    virtual bool ConnectBlock(CTxDB& txdb, CBlockIndex* pindex) = 0;
-    virtual bool DisconnectBlock(CTxDB& txdb, CBlockIndex* pindex) = 0;
+    virtual bool IsNameFeeEnough(const CTransaction& tx, const int64 &txFee) = 0;
+    virtual bool CheckInputs(const CTransaction& tx, const CBlockIndex* pindexBlock, std::vector<nameTempProxy>& vName, const CDiskTxPos &pos, const int64 &txFee) = 0;
+    virtual bool DisconnectInputs(const CTransaction& tx) = 0;
+    virtual bool ConnectBlock(CBlockIndex* pindex, const std::vector<nameTempProxy> &vName) = 0;
     virtual bool ExtractAddress(const CScript& script, std::string& address) = 0;
     virtual void AddToPendingNames(const CTransaction& tx) = 0;
     virtual bool IsMine(const CTxOut& txout) = 0;
     virtual bool IsNameTx(int nVersion) = 0;
     virtual bool IsNameScript(CScript scr) = 0;
     virtual bool deletePendingName(const CTransaction& tx) = 0;
-    virtual bool getNameValue(const string& name, string& value) = 0;
+    virtual bool getNameValue(const std::string& name, std::string& value) = 0;
+    virtual bool DumpToTextFile() = 0;
 };
 
 extern CHooks* InitHook();
-extern std::string GetDefaultDataDirSuffix();
 
 #endif

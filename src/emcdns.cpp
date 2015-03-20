@@ -44,8 +44,10 @@ extern CHooks* hooks;
 /*---------------------------------------------------*/
 
 #define BUF_SIZE (512 + 512)
-#define MAX_OUT  (512) // Old DNS restricts UDP to 512 bytes
-#define MAX_TOK  64
+#define MAX_OUT  512	// Old DNS restricts UDP to 512 bytes
+#define MAX_TOK  64	// Maximal TokenQty in the vsl_list, like A=IP1,..,IPn
+#define MAX_DOM  10	// Maximal domain level
+
 #define VAL_SIZE (MAX_VALUE_LENGTH + 16)
 #define DNS_PREFIX "dns"
 #define REDEF_SYM  '~'
@@ -100,7 +102,7 @@ int EmcDns::Reset(const char *bind_ip, uint16_t port_no,
     shutdown(m_sockfd, SHUT_RDWR);
 #endif
     closesocket(m_sockfd);
-    Sleep(100); // Allow 0.1s external thread to exit
+    MilliSleep(100); // Allow 0.1s external thread to exit
 #ifndef WIN32
     // pthread_join(m_thread, NULL);
 #endif
@@ -166,6 +168,13 @@ int EmcDns::Reset(const char *bind_ip, uint16_t port_no,
     // Allocate memory
     int allowed_len = allowed_suff == NULL? 0 : strlen(allowed_suff);
     m_gw_suf_len    = gw_suffix    == NULL? 0 : strlen(gw_suffix);
+
+    // Compute dots in the gw-suffix
+    m_gw_suf_dots = 0;
+    if(m_gw_suf_len)
+      for(const char *p = gw_suffix; *p; p++)
+        if(*p == '.') 
+	  m_gw_suf_dots++;
 
     // If no memory, DAP inactive - this is not critical problem
     m_dap_ht  = (allowed_len | m_gw_suf_len)? (DNSAP*)calloc(EMCDNS_DAPSIZE, sizeof(DNSAP)) : NULL; 
@@ -241,18 +250,14 @@ int EmcDns::Reset(const char *bind_ip, uint16_t port_no,
       } // while
     } //  if(local_len)
 
-    // Create own listener, only if GUI; 
-    // Otherwise, Run() will be called from AppInit2
-#ifdef QT_GUI
     // Create listener thread
-    if (!CreateThread(StatRun, this))
+    if (!NewThread(StatRun, this))
     {
       perror("EmcDns::Reset: Cannot create thread");
       closesocket(m_sockfd);
       free(m_value);
       return -6; // cannot create inner thread
     }
-#endif
 
     if(m_verbose > 0)
 	 printf("EmcDns::Reset: Created/Attached: %s:%u; Qty=%u:%u\n", 
@@ -376,60 +381,60 @@ void EmcDns::HandlePacket() {
 /*---------------------------------------------------*/
 uint16_t EmcDns::HandleQuery() {
   // Decode qname
-  uint8_t key[BUF_SIZE];
-  strcpy((char *)key, DNS_PREFIX); 
-  uint8_t *keyp = key + sizeof(DNS_PREFIX) - 1;
-  uint8_t *p = keyp;
-  strncpy((char *)keyp, (const char *)m_rcv, BUF_SIZE - sizeof(DNS_PREFIX));
+  uint8_t key[BUF_SIZE];				// Key, transformed to dot-separated LC
+  uint8_t *key_end = key;
+  uint8_t *domain_ndx[MAX_DOM];				// indexes to domains
+  uint8_t **domain_ndx_p = domain_ndx;			// Ptr to end
 
-  // Decode domain string to dot-separated, insert ':' at begin
-  for(uint8_t sep = ':'; *p != 0; ) {
-    uint8_t sym = *p;
-    *p = sep; 
-    sep = '.';
-    p += sym + 1;
-    if((sym & 0xc0) || p >= key + BUF_SIZE - sizeof(DNS_PREFIX))
+  // m_rcv is pointer to QNAME
+  // Set reference to domain label
+  m_label_ref = (m_rcv - m_buf) | 0xc000;
+
+  // Convert DNS request (QNAME) to dot-separated printed domaon name in LC
+  // Fill domain_ndx - indexes for domain entries
+  uint8_t dom_len;
+  while((dom_len = *m_rcv++) != 0) {
+    // wrong domain length | key too long, over BUF_SIZE | too mant domains, max is MAX_DOM
+    if((dom_len & 0xc0) || key_end >= key + BUF_SIZE || domain_ndx_p >= domain_ndx + MAX_DOM)
       return 1; // Invalid request
+    *domain_ndx_p++ = key_end;
+    do {
+      *key_end++ = tolower(*m_rcv++);
+    } while(--dom_len);
+    *key_end++ = '.'; // Set DOT at domain end
   }
+  *--key_end = 0; // Remove last dot, set EOLN
 
-  m_label_ref = htons((m_rcv - m_buf) | 0xc000);
-  m_rcv += p - keyp + 1; // Promote to end of QNAME
-
-  keyp++; // Set PTR to begin of token, after ':' in "dns:"
+  if(m_verbose > 3) 
+    printf("EmcDns::HandleQuery: Translated domain name: [%s]; DomainsQty=%li\n", key, (long)(domain_ndx_p - domain_ndx));
 
   uint16_t qtype  = *m_rcv++; qtype  = (qtype  << 8) + *m_rcv++; 
   uint16_t qclass = *m_rcv++; qclass = (qclass << 8) + *m_rcv++;
 
   if(m_verbose > 0) 
-    printf("EmcDns::HandleQuery Key=%s QType=%x QClass=%x\n", key, qtype, qclass);
+    printf("EmcDns::HandleQuery: Key=%s QType=%x QClass=%x\n", key, qtype, qclass);
 
   if(qclass != 1)
     return 4; // Not implemented - support INET only
 
-  // ToLower search key
-  for(p = keyp; *p; p++)
-      if(*p >= 'A' && *p <= 'Z')
-	  *p |= 040; // tolower
-
-  // If thid is puplic gateway, gw-suffix must be specified, like 
+  // If thid is puplic gateway, gw-suffix can be specified, like 
   // emcdnssuffix=.xyz.com
-  // Followind block cut this suffix.
+  // Followind block cuts this suffix, if exist.
   // If received domain name "xyz.com" only, keyp is empty string
 
   if(m_gw_suf_len) { // suffix defined [public DNS], need to cut
-    p -= m_gw_suf_len;
-    int d = p - keyp;
-    if((d >=  0 && strcmp((const char *)p, m_gw_suffix) != 0)
-    || (d == -1 && strcmp((const char *)p + 1, m_gw_suffix + 1) != 0)
-    || (d <  -1)) {
-        if(m_verbose > 3) 
-	    printf("EmcDns::HandleQuery: missing GW-suffix=%s in given key=%s; return NXDOMAIN\n", 
-		  m_gw_suffix, key);
-        return 3; // Invalid or missing domain suffix, return NXDOMAIN
-    }
-    if(d < 0) 
-      p = keyp;
-    *p = 0; // Cut suffix m_gw_sufix
+    uint8_t *p_suffix = key_end - m_gw_suf_len;
+    if(p_suffix >= key && strcmp((const char *)p_suffix, m_gw_suffix) == 0) {
+      *p_suffix = 0; // Cut suffix m_gw_sufix
+      key_end = p_suffix;
+      domain_ndx_p -= m_gw_suf_dots; 
+    } else 
+    // check special - if suffix == GW-site, e.g., request: emergate.net
+    if(p_suffix == key - 1 && strcmp((const char *)p_suffix + 1, m_gw_suffix + 1) == 0) {
+      *++p_suffix = 0; // Set empty search key
+      key_end = p_suffix;
+      domain_ndx_p = domain_ndx;
+    } 
   } // if(m_gw_suf_len)
 
   // Search for TLD-suffix, like ".coin"
@@ -438,7 +443,12 @@ uint16_t EmcDns::HandleQuery() {
 
   uint8_t pos = 0, step = 0; // pos, step for double hashing
 
-  while(p > keyp) {
+  uint8_t *p = key_end;
+
+  if(m_verbose > 3) 
+    printf("EmcDns::HandleQuery: After TLD-suffix cut: [%s]\n", key);
+
+  while(p > key) {
     uint8_t c = *--p;
     if(c == '.')
       break; // this is TLD-suffix
@@ -448,7 +458,7 @@ uint16_t EmcDns::HandleQuery() {
 
   step |= 1; // Set even step for 2-hashing
 
-  if(p == keyp && m_local_base != NULL) {
+  if(p == key && m_local_base != NULL) {
     // no TLD suffix, try to search local 1st
     if(LocalSearch(p, pos, step) > 0)
       p = NULL; // local search is OK, do not perform nameindex search
@@ -460,7 +470,7 @@ uint16_t EmcDns::HandleQuery() {
     if(m_allowed_qty) { // Activated TLD-filter
       if(*p != '.') {
         if(m_verbose > 3) 
-  	  printf("EmcDns::HandleQuery: TLD-suffix is not specified in given key=%s; return NXDOMAIN\n", p, key);
+      printf("EmcDns::HandleQuery: TLD-suffix=[.%s] is not specified in given key=%s; return NXDOMAIN\n", p, key);
 	return 3; // TLD-suffix is not specified, so NXDOMAIN
       } 
       p++; // Set PTR after dot, to the suffix
@@ -474,16 +484,51 @@ uint16_t EmcDns::HandleQuery() {
       } while(m_ht_offset[pos] < 0 || strcmp((const char *)p, m_allowed_base + m_ht_offset[pos]) != 0);
     } // if(m_allowed_qty)
 
+    uint8_t **cur_ndx_p, **prev_ndx_p = domain_ndx_p - 2;
+    if(prev_ndx_p < domain_ndx) 
+      prev_ndx_p = domain_ndx;
+#if 0
+    else {
+      // 2+ domain level. 
+      // Try to adjust TLD suffix for peering GW-site, like opennic.coin
+      if(strncmp((const char *)(*prev_ndx_p), "opennic.", 8) == 0)
+        strcpy((char*)domain_ndx_p[-1], "*"); // substitute TLD to '*'; don't modify domain_ndx_p[0], for keep TLD size for REF
+    }
+#endif
+ 
     // Search in the nameindex db. Possible to search filtered indexes, or even pure names, like "dns:www"
-    if(Search(key) <= 0) // Result saved into m_value
-      return 3; // empty answer, not found, return NXDOMAIN
-  } // if(p) 
 
+    bool step_next;
+    do {
+      cur_ndx_p = prev_ndx_p;
+      if(Search(*cur_ndx_p) <= 0) // Result saved into m_value
+	return 3; // empty answer, not found, return NXDOMAIN
+      if(cur_ndx_p == domain_ndx)
+	break; // This is 1st domain (last in the chain), go to answer
+      // Try to search allowance in SD=list for step down
+      prev_ndx_p = cur_ndx_p - 1;
+      int domain_len = *cur_ndx_p - *prev_ndx_p - 1;
+      char val2[VAL_SIZE];
+      char *tokens[MAX_TOK];
+      step_next = false;
+      int sdqty = Tokenize("SD", ",", tokens, strcpy(val2, m_value));
+      while(--sdqty >= 0 && !step_next)
+        step_next = strncmp((const char *)*prev_ndx_p, tokens[sdqty], domain_len) == 0;
+
+      // if no way down - maybe, we can create REF-answer from NS-records
+      if(step_next == false && TryMakeref(m_label_ref + (*cur_ndx_p - key)))
+	return 0;
+      // if cannot create REF - just ANSWER for parent domain (ignore prefix)
+    } while(step_next);
+    
+  } // if(p) - ends of DB search 
+
+  // There is generate ANSWER section
   { // Extract TTL
     char val2[VAL_SIZE];
     char *tokens[MAX_TOK];
     int ttlqty = Tokenize("TTL", NULL, tokens, strcpy(val2, m_value));
-    m_ttl = htonl(ttlqty? atoi(tokens[0]) : 24 * 3600);
+    m_ttl = ttlqty? atoi(tokens[0]) : 24 * 3600;
   }
   
   if(qtype == 0xff) { // ALL Q-types
@@ -497,6 +542,21 @@ uint16_t EmcDns::HandleQuery() {
   return 0;
 } // EmcDns::HandleQuery
 
+/*---------------------------------------------------*/
+int EmcDns::TryMakeref(uint16_t label_ref) {
+  char val2[VAL_SIZE];
+  char *tokens[MAX_TOK];
+  int ttlqty = Tokenize("TTL", NULL, tokens, strcpy(val2, m_value));
+  m_ttl = ttlqty? atoi(tokens[0]) : 24 * 3600;
+  uint16_t orig_label_ref = m_label_ref;
+  m_label_ref = label_ref;
+  Answer_ALL(2, strcpy(val2, m_value));
+  m_label_ref = orig_label_ref;
+  m_hdr->NSCount = m_hdr->ANCount;
+  m_hdr->ANCount = 0;
+  printf("EmcDns::TryMakeref: Generated REF NS=%u\n", m_hdr->NSCount);
+  return m_hdr->NSCount;
+} //  EmcDns::TryMakeref
 /*---------------------------------------------------*/
 
 int EmcDns::Tokenize(const char *key, const char *sep2, char **tokens, char *buf) {
@@ -571,12 +631,21 @@ void EmcDns::Answer_ALL(uint16_t qtype, char *buf) {
 
   if(m_verbose > 0) printf("EmcDns::Answer_ALL(QT=%d, key=%s); TokenQty=%d\n", qtype, key, tokQty);
 
+  // Shuffle tokens for randomization output order
+  for(int i = tokQty; i > 1; ) {
+    int randndx = GetRand(i);
+    char *tmp = tokens[randndx];
+    --i;
+    tokens[randndx] = tokens[i];
+    tokens[i] = tmp;
+  }
+
   for(int tok_no = 0; tok_no < tokQty; tok_no++) {
       if(m_verbose > 1) 
 	printf("\tEmcDns::Answer_ALL: Token:%u=[%s]\n", tok_no, tokens[tok_no]);
       Out2(m_label_ref);
-      Out2(htons(qtype)); // A record
-      Out2(htons(1)); //  INET
+      Out2(qtype); // A record, or maybe something else
+      Out2(1); //  INET
       Out4(m_ttl);
       switch(qtype) {
 	case 1 : Fill_RD_IP(tokens[tok_no], AF_INET);  break;
@@ -601,7 +670,7 @@ void EmcDns::Fill_RD_IP(char *ipddrtxt, int af) {
       case AF_INET6: out_sz = 16; break;
       default: return;
   }
-  Out2(htons(out_sz));
+  Out2(out_sz);
   if(inet_pton(af, ipddrtxt, m_snd)) 
     m_snd += out_sz;
   else
@@ -662,9 +731,8 @@ int EmcDns::Search(uint8_t *key) {
   if(m_verbose > 1) 
     printf("EmcDns::Search(%s)\n", key);
 
-  string name((const char *)key);
-  string value;
-  if (!hooks->getNameValue(name, value))
+  std::string value;
+  if (!hooks->getNameValue(std::string("dns:") + (const char *)key, value))
     return 0;
 
   strcpy(m_value, value.c_str());

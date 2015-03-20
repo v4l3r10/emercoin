@@ -1,63 +1,26 @@
-Emercoin integration/staging tree
+
+Peercoin Official Development Repo
+==================================
+
+### What is Emercoin (EMC)?
+[Emercoin](http://emercoin.com/) (abbreviated EMC) is the [cryptocurrency](https://en.wikipedia.org/wiki/Cryptocurrency) design that have [proof-of-stake consensus](http://peercoin.net/bin/peercoin-paper.pdf) as a security model, with a combined [proof-of-stake](http://peercoin.net/bin/peercoin-paper.pdf)/[proof-of-work](https://en.wikipedia.org/wiki/Proof-of-work_system) minting system. Emercoin also have ability to save key/value inside blockchain similar to [Namecoin](http://namecoin.info/). Emercoin is based on [Bitcoin](http://bitcoin.org/en/), [Emercoin](http://peercoin.net/) and [Namecoin](http://namecoin.info/).
+
+### Peercoin Resources
+* Client and Source:
+[Client Binaries](https://sourceforge.net/projects/emercoin/files/),
+[Source Code](https://github.com/EvgenijM86/emercoin)
+* Documentation:
+[Peercoin Whitepaper](http://peercoin.net/bin/peercoin-paper.pdf),
+[Emercoin Wiki]()
+* Help: 
+[Forum](),
+[Other Sites and Links...]()
+
+Repo Guidelines
 ================================
 
-http://emercoin.com
-
-Copyright (c) 2009-2013 Bitcoin Developers
-Copyright (c) 2013-2014 Emercoin Developers
-
-What is Emercoin?
-----------------
-
-Emercoin is an experimental new digital currency that enables instant payments to
-anyone, anywhere in the world. Emercoin uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Emercoin is also the name of the open source
-software which enables the use of this currency.
-
-For more information, as well as an immediately useable, binary version of
-the Emercoin client software, see http://emercoin.com.
-
-License
--------
-
-Emercoin is released under the terms of the MIT license AND GPL3 license. See `COPYING` for more
-information or see http://www.gnu.org/licenses/gpl.html.
-
-Development process
--------------------
-
-Developers work in their own trees, then submit pull requests when they think
-their feature or bug fix is ready.
-
-The patch will be accepted if there is broad consensus that it is a good thing.
-Developers should expect to rework and resubmit patches if the code doesn't
-match the project's coding conventions (see `doc/coding.md`) or are
-controversial.
-
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/EvgenijM86/emercoin/tags) are created
-regularly to indicate new official, stable release versions of Emercoin.
-
-Testing
--------
-
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test. Please be patient and help out, and
-remember this is a security-critical project where any mistake might cost people
-lots of money.
-
-### Automated Testing
-
-Developers are strongly encouraged to write unit tests for new code, and to
-submit new unit tests for old code.
-
-Unit tests can be compiled and run (assuming they weren't disabled in configure) with:
-  make check
-
-### Manual Quality Assurance (QA) Testing
-
-Large changes should have a test plan, and should be tested by somebody other
-than the developer who wrote the code.
-
-See https://github.com/bitcoin/QA/ for how to create a test plan.
+* Developers work in their own forks, then submit pull requests when they think their feature or bug fix is ready.
+* If it is a simple/trivial/non-controversial change, then one of the development team members simply pulls it.
+* If it is a more complicated or potentially controversial change, then the change may be discussed in the pull request. 
+* The patch will be accepted if there is broad consensus that it is a good thing. Developers should expect to rework and resubmit patches if they don't match the project's coding conventions (see coding.txt) or are controversial.
+* From time to time a pull request will become outdated. If this occurs, and the pull is no longer automatically mergeable; a comment on the pull will be used to issue a warning of closure.  Pull requests closed in this manner will have their corresponding issue labeled 'stagnant'.

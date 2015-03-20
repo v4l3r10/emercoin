@@ -55,7 +55,7 @@ private:
 
 public slots:
     void updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex = NULL);
-    void update(bool forced = false);
+    void update();
 
     friend class NameTablePriv;
 };
@@ -81,14 +81,6 @@ struct NameTableEntry
         name(name), value(value), address(address), nExpiresAt(nExpiresAt), fIsMine(fIsMine) {}
     NameTableEntry(const std::string &name, const std::string &value, const std::string &address, int nExpiresAt, bool fIsMine = true) :
         name(QString::fromStdString(name)), value(QString::fromStdString(value)), address(QString::fromStdString(address)), nExpiresAt(nExpiresAt), fIsMine(fIsMine) {}
-};
-
-/** General change type (added, updated, removed). This should be in ui_interface.h in namecoin*/
-enum ChangeType
-{
-    CT_NEW,
-    CT_UPDATED,
-    CT_DELETED
 };
 
 #endif // NAMETABLEMODEL_H

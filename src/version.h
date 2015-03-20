@@ -5,21 +5,16 @@
 #ifndef BITCOIN_VERSION_H
 #define BITCOIN_VERSION_H
 
+#include "clientversion.h"
 #include <string>
 
 //
 // client versioning
 //
 
-// These need to be macro's, as version.cpp's voodoo requires it
-#define CLIENT_VERSION_MAJOR       0
-#define CLIENT_VERSION_MINOR       6
-#define CLIENT_VERSION_REVISION    3
-#define CLIENT_VERSION_BUILD       0
-
 static const int CLIENT_VERSION =
                            1000000 * CLIENT_VERSION_MAJOR
-                         +   10000 * CLIENT_VERSION_MINOR 
+                         +   10000 * CLIENT_VERSION_MINOR
                          +     100 * CLIENT_VERSION_REVISION
                          +       1 * CLIENT_VERSION_BUILD;
 
@@ -27,15 +22,13 @@ extern const std::string CLIENT_NAME;
 extern const std::string CLIENT_BUILD;
 extern const std::string CLIENT_DATE;
 
-// ppcoin version - intended for display purpose ONLY
-// emercoin: is also used to identify target for alerts
+// emercoin version - intended for display purpose
 #define EMERCOIN_VERSION_MAJOR       0
-#define EMERCOIN_VERSION_MINOR       3
-#define EMERCOIN_VERSION_REVISION    1
+#define EMERCOIN_VERSION_MINOR       4
+#define EMERCOIN_VERSION_REVISION    0
 #define EMERCOIN_VERSION_BUILD       0
 
-// this is an ugly hack. TODO: reimplement version system to use single version. Need to study if bitcoin version can be changed without breaking things.
-static const int EMERCOIN_ALERT_VERSION =
+static const int EMERCOIN_VERSION =
                            1000000 * EMERCOIN_VERSION_MAJOR
                          +   10000 * EMERCOIN_VERSION_MINOR
                          +     100 * EMERCOIN_VERSION_REVISION
@@ -45,7 +38,7 @@ static const int EMERCOIN_ALERT_VERSION =
 // network protocol versioning
 //
 
-static const int PROTOCOL_VERSION = 60003;
+static const int PROTOCOL_VERSION = 70001;
 
 // earlier versions not supported as of Feb 2012, and are disconnected
 // NOTE: as of bitcoin v0.6 message serialization (vSend, vRecv) still
@@ -62,5 +55,8 @@ static const int NOBLKS_VERSION_END = 32400;
 
 // BIP 0031, pong message, is enabled for all versions AFTER this one
 static const int BIP0031_VERSION = 60000;
+
+// "mempool" command, enhanced "getdata" behavior starts with this version:
+static const int MEMPOOL_GD_VERSION = 60002;
 
 #endif
