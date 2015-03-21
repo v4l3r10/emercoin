@@ -1891,7 +1891,8 @@ bool CNamecoinHooks::ConnectBlock(CBlockIndex* pindex, const vector<nameTempProx
             nameRec.nLastActiveChainIndex = nameRec.vtxPos.size()-1;
 
         // limit to 100 tx per name or a full single chain - whichever is larger
-        if (nameRec.vtxPos.size() > NAMEINDEX_CHAIN_SIZE && nameRec.vtxPos.size() - nameRec.nLastActiveChainIndex + 1 <= NAMEINDEX_CHAIN_SIZE)
+        if (nameRec.vtxPos.size() > NAMEINDEX_CHAIN_SIZE 
+	      && nameRec.vtxPos.size() - nameRec.nLastActiveChainIndex + 1 <= NAMEINDEX_CHAIN_SIZE)
         {
             int d = nameRec.vtxPos.size() - NAMEINDEX_CHAIN_SIZE; // number of elements to delete
             nameRec.vtxPos.erase(nameRec.vtxPos.begin(), nameRec.vtxPos.begin() + d);

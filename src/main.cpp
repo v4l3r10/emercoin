@@ -5220,7 +5220,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
     std::vector<COutput> vCoins;
     pwalletMain->AvailableCoins(vCoins, false);
     unsigned int pos_timio = 500 + 20 * sqrt(vCoins.size());
-    printf("Set proof-of-stake timeout: %ums for %lu UTXOs\n", pos_timio, vCoins.size());
+    printf("Set proof-of-stake timeout: %ums for %lu UTXOs\n", pos_timio, (unsigned long)vCoins.size());
     vCoins.clear();
 
     string strMintMessage = _("Info: Minting suspended due to locked wallet."); 

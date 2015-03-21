@@ -3,14 +3,14 @@
 #include "base58.h"
 
 static const int NAMECOIN_TX_VERSION = 0x0666; //0x0666 is initial version
-static const int MAX_NAME_LENGTH = 512;
-static const int MAX_VALUE_LENGTH = 20*1024;
+static const unsigned int MAX_NAME_LENGTH = 512;
+static const unsigned int MAX_VALUE_LENGTH = 20*1024;
 static const int MAX_RENTAL_DAYS = 100*365; //100 years
 static const int OP_NAME_NEW = 0x01;
 static const int OP_NAME_UPDATE = 0x02;
 static const int OP_NAME_DELETE = 0x03;
-static const int MIN_FIRSTUPDATE_DEPTH = 12;
-static const int NAMEINDEX_CHAIN_SIZE = 100;
+static const unsigned int MIN_FIRSTUPDATE_DEPTH = 12;
+static const unsigned int NAMEINDEX_CHAIN_SIZE = 100;
 
 static const int RELEASE_HEIGHT = 1<<16;
 

@@ -328,8 +328,22 @@ static void stun_req_id(struct stun_header *req)
   } while(--x);
 }
 
-/* callback type to be invoked on stun responses. */
-typedef int (stun_cb_f)(struct stun_attr *attr, void *arg);
+/* Extract the STUN_MAPPED_ADDRESS from the stun response.
+ * This is used as a callback for stun_handle_response
+ * when called from stun_request.
+ */
+static int stun_get_mapped(struct stun_attr *attr, void *arg)
+{
+	struct stun_addr *addr = (struct stun_addr *)(attr + 1);
+	struct sockaddr_in *sa = (struct sockaddr_in *)arg;
+
+	if (ntohs(attr->attr) != STUN_MAPPED_ADDRESS || ntohs(attr->len) != 8)
+		return 1;	/* not us. */
+	sa->sin_port = addr->port;
+	sa->sin_addr.s_addr = addr->addr;
+	return 0;
+}
+
 
 /* handle an incoming STUN message.
  *
@@ -340,7 +354,7 @@ typedef int (stun_cb_f)(struct stun_attr *attr, void *arg);
  * If a callback is specified, invoke it with the attribute.
  */
 static int stun_handle_packet(int s, struct sockaddr_in *src,
-	unsigned char *data, size_t len, stun_cb_f *stun_cb, void *arg)
+	unsigned char *data, size_t len, void *arg)
 {
   struct stun_header *hdr = (struct stun_header *)data;
   struct stun_attr *attr;
@@ -357,7 +371,7 @@ static int stun_handle_packet(int s, struct sockaddr_in *src,
   len -= sizeof(struct stun_header);
   data += sizeof(struct stun_header);
   x = ntohs(hdr->msglen);	/* len as advertised in the message */
-  if(x < len)
+  if(x < (int)len)
   len = x;
 
   while (len) {
@@ -368,11 +382,12 @@ static int stun_handle_packet(int s, struct sockaddr_in *src,
     attr = (struct stun_attr *)data;
     /* compute total attribute length */
     x = ntohs(attr->len) + sizeof(struct stun_attr);
-    if (x > len) {
+    if (x > (int)len) {
       ret = -22;
       break;
     }
-    stun_cb(attr, arg);
+    // stun_cb(attr, arg);
+    stun_get_mapped(attr, arg);
     //if (stun_process_attr(&st, attr)) {
     //  ret = -23;
     //  break;
@@ -397,22 +412,6 @@ static int stun_handle_packet(int s, struct sockaddr_in *src,
    */
 
   return ret;
-}
-
-/* Extract the STUN_MAPPED_ADDRESS from the stun response.
- * This is used as a callback for stun_handle_response
- * when called from stun_request.
- */
-static int stun_get_mapped(struct stun_attr *attr, void *arg)
-{
-	struct stun_addr *addr = (struct stun_addr *)(attr + 1);
-	struct sockaddr_in *sa = (struct sockaddr_in *)arg;
-
-	if (ntohs(attr->attr) != STUN_MAPPED_ADDRESS || ntohs(attr->len) != 8)
-		return 1;	/* not us. */
-	sa->sin_port = addr->port;
-	sa->sin_addr.s_addr = addr->addr;
-	return 0;
 }
 
 /*---------------------------------------------------------------------*/
@@ -458,7 +457,7 @@ static int StunRequest2(int sock, struct sockaddr_in *server, struct sockaddr_in
   if (res <= 0)
     return -12;
   memset(mapped, 0, sizeof(struct sockaddr_in));
-  return stun_handle_packet(sock, &src, reply_buf, res, stun_get_mapped, mapped);
+  return stun_handle_packet(sock, &src, reply_buf, res, mapped);
 } // StunRequest2
 
 /*---------------------------------------------------------------------*/
