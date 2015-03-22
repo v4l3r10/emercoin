@@ -68,13 +68,21 @@ public:
             {
                 NameTxInfo nti = mapPending[item.second.vchName];
 
-                int nHeightStatus;
+                int nHeightStatus = -666;
                 if (nti.op == OP_NAME_NEW)
                     nHeightStatus = NameTableEntry::NAME_NEW;
                 else if (nti.op == OP_NAME_UPDATE)
                     nHeightStatus = NameTableEntry::NAME_UPDATE;
                 else if (nti.op == OP_NAME_DELETE)
                     nHeightStatus = NameTableEntry::NAME_DELETE;
+
+                if (nHeightStatus == -666)
+                {
+                    //should never happen
+                    error("unknow operation in refreshNameTable()\n");
+                    return;
+                }
+
                 NameTableEntry nte(stringFromVch(nti.vchName), stringFromVch(nti.vchValue), nti.strAddress, nHeightStatus, item.second.fIsMine);
                 cachedNameTable.append(nte);
             }

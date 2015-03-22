@@ -309,8 +309,8 @@ void ManageNamesPage::on_submitNameButton_clicked()
     try
     {
         NameTxReturn res;
-        int nHeight;
-        ChangeType status;
+        int nHeight = 0;
+        ChangeType status = CT_INVALID;
         if (txType == "NAME_NEW")
         {
             nHeight = NameTableEntry::NAME_NEW;
@@ -328,6 +328,13 @@ void ManageNamesPage::on_submitNameButton_clicked()
             nHeight = NameTableEntry::NAME_DELETE;
             status = CT_UPDATED; //we still want to display this name until it is deleted
             res = walletModel->nameDelete(name);
+        }
+
+        if (status == CT_INVALID)
+        {
+            // should never happen
+            error("invalid operation in on_submitNameButton_clicked");
+            return;
         }
 
         importedAsBinaryFile.clear();
@@ -556,7 +563,7 @@ void ManageNamesPage::on_importValueButton_clicked()
     QByteArray blob = file.readAll();
     file.close();
 
-    if (blob.size() > MAX_VALUE_LENGTH)
+    if (blob.size() > 0 && ((unsigned int)blob.size() > MAX_VALUE_LENGTH))
     {
         QMessageBox::critical(this, tr("Value too large!"), tr("Value is larger than maximum size: %1 bytes > %2 bytes").arg(importedAsBinaryFile.size()).arg(MAX_VALUE_LENGTH));
         return;
