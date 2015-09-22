@@ -13,6 +13,8 @@
 
 #include "uint256hm.h"
 
+#include <inttypes.h>
+
 using namespace std;
 
 
@@ -987,6 +989,11 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
     setCoinsRet.clear();
     nValueRet = 0;
 
+    // Maximap DP array size
+    static uint32_t nMaxDP = 0;
+    if(nMaxDP == 0) 
+        nMaxDP = GetArg("-maxdp", 1024 * 1024);
+
     // List of values less than target
     pair<int64, pair<const CWalletTx*,unsigned int> > coinLowestLarger;
     coinLowestLarger.first = std::numeric_limits<int64>::max();
@@ -1052,7 +1059,8 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
         }
     }
 
-    if (nTotalLower == nTargetValue || nTotalLower == nTargetValue + CENT)
+    // Payoff all available UTXOs
+    if (nTotalLower >= nTargetValue && nTotalLower <= nTargetValue + CENT)
     {
         for (unsigned int i = 0; i < vValue.size(); ++i)
         {
@@ -1071,9 +1079,58 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
         return true;
     }
 
+  // If possible, solve subset sum by dynamic programming
+  // Adeed by maxihatop
+  uint16_t *dp;	// dynamic programming array
+  uint32_t dp_tgt = nTargetValue / MIN_TX_FEE;
+  uint32_t dp_max = dp_tgt + 100;
+  if(dp_max < nMaxDP && (dp = (uint16_t*)calloc(dp_max, sizeof(uint16_t))) != NULL) {
+    dp[0] = 1; // Zero CENTs can be reached anyway
+    uint16_t max_utxo_qty((1 << 16) - 2);
+    if(vValue.size() < max_utxo_qty)
+	max_utxo_qty = vValue.size();
+    // Apply UTXOs to DP array, until exact sum will be found
+    for(uint16_t utxo_no = 0; utxo_no < max_utxo_qty && dp[dp_tgt] == 0; utxo_no++) {
+      uint32_t offset = vValue[utxo_no].first / MIN_TX_FEE;
+      for(int32_t ndx = dp_tgt - 1; ndx >= 0; ndx--)
+        if(dp[ndx]) {
+	  uint32_t nxt = ndx + offset;
+          if(nxt < dp_max && dp[nxt] == 0)
+	    dp[nxt] = utxo_no + 1;
+	}
+    } // for - UTXOs
+    uint32_t sum;
+    for(sum = dp_tgt; sum < dp_max && dp[sum] == 0; sum++);
+    dp[0] = 0; // set stop-flag
+    while(dp[sum]) {
+      uint16_t utxo_no = dp[sum] - 1;
+      setCoinsRet.insert(vValue[utxo_no].second);
+      nValueRet += vValue[utxo_no].first;
+      sum -= vValue[utxo_no].first / MIN_TX_FEE;
+    }
+
+    free(dp);
+    if(nValueRet >= nTargetValue) {
+      //// debug print
+      if (fDebug && GetBoolArg("-printselectcoin")) {
+        printf("SelectCoins() DP subset: Target=%s Found=%s Payback=%s Qty=%u\n", 
+ 	        FormatMoney(nTargetValue).c_str(), 
+ 	        FormatMoney(nValueRet).c_str(), 
+	        FormatMoney(nValueRet - nTargetValue).c_str(), 
+	        (unsigned)setCoinsRet.size()
+	        );
+      }
+ 
+      return true; // sum found by DP
+    }
+  } // DP compute
+
+
+#if 1
+    // maxihatop: don't understand, why add extra cent to TARGET
     if (nTotalLower >= nTargetValue + CENT)
         nTargetValue += CENT;
-
+#endif
     // Solve subset sum by stochastic approximation
     sort(vValue.rbegin(), vValue.rend());
     vector<char> vfIncluded;
@@ -1126,7 +1183,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
         //// debug print
         if (fDebug && GetBoolArg("-printselectcoin"))
         {
-            printf("SelectCoins() best subset: ");
+            printf("SelectCoins() stochastic best subset: ");
             for (unsigned int i = 0; i < vValue.size(); i++)
                 if (vfBest[i])
                     printf("%s ", FormatMoney(vValue[i].first).c_str());
