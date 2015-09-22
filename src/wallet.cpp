@@ -1083,33 +1083,43 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
   // Adeed by maxihatop
   uint16_t *dp;	// dynamic programming array
   uint32_t dp_tgt = nTargetValue / MIN_TX_FEE;
-  uint32_t dp_max = dp_tgt + 100;
-  if(dp_max < nMaxDP && (dp = (uint16_t*)calloc(dp_max, sizeof(uint16_t))) != NULL) {
+  if(dp_tgt < nMaxDP && (dp = (uint16_t*)calloc(dp_tgt + 1, sizeof(uint16_t))) != NULL) {
     dp[0] = 1; // Zero CENTs can be reached anyway
     uint16_t max_utxo_qty((1 << 16) - 2);
     if(vValue.size() < max_utxo_qty)
 	max_utxo_qty = vValue.size();
+    uint32_t min_over_utxo =  0;
+    uint32_t min_over_sum  = ~0;
     // Apply UTXOs to DP array, until exact sum will be found
     for(uint16_t utxo_no = 0; utxo_no < max_utxo_qty && dp[dp_tgt] == 0; utxo_no++) {
       uint32_t offset = vValue[utxo_no].first / MIN_TX_FEE;
       for(int32_t ndx = dp_tgt - 1; ndx >= 0; ndx--)
         if(dp[ndx]) {
 	  uint32_t nxt = ndx + offset;
-          if(nxt < dp_max && dp[nxt] == 0)
-	    dp[nxt] = utxo_no + 1;
-	}
+          if(nxt <= dp_tgt) {
+	    if(dp[nxt] == 0)
+	      dp[nxt] = utxo_no + 1;
+	  } else
+	      if(nxt < min_over_sum) {
+		  min_over_sum = nxt;
+		  min_over_utxo = utxo_no + 1;
+	      }
+	} // if(dp[ndx])
     } // for - UTXOs
-    uint32_t sum;
-    for(sum = dp_tgt; sum < dp_max && dp[sum] == 0; sum++);
-    dp[0] = 0; // set stop-flag
-    while(dp[sum]) {
-      uint16_t utxo_no = dp[sum] - 1;
+
+    if(dp[dp_tgt] != 0)  // Found exactly sum without payback
+      min_over_utxo = dp[min_over_sum = dp_tgt];
+
+    while(min_over_sum) {
+      uint16_t utxo_no = min_over_utxo - 1;
       setCoinsRet.insert(vValue[utxo_no].second);
       nValueRet += vValue[utxo_no].first;
-      sum -= vValue[utxo_no].first / MIN_TX_FEE;
+      min_over_sum -= vValue[utxo_no].first / MIN_TX_FEE;
+      min_over_utxo = dp[min_over_sum];
     }
 
     free(dp);
+
     if(nValueRet >= nTargetValue) {
       //// debug print
       if (fDebug && GetBoolArg("-printselectcoin")) {
@@ -1119,12 +1129,14 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
 	        FormatMoney(nValueRet - nTargetValue).c_str(), 
 	        (unsigned)setCoinsRet.size()
 	        );
+      } else {
+	nValueRet = 0;
+	setCoinsRet.clear();
       }
  
       return true; // sum found by DP
     }
   } // DP compute
-
 
 #if 1
     // maxihatop: don't understand, why add extra cent to TARGET
