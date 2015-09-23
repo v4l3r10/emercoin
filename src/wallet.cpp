@@ -1082,7 +1082,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
   // If possible, solve subset sum by dynamic programming
   // Adeed by maxihatop
   uint16_t *dp;	// dynamic programming array
-  uint32_t dp_tgt = nTargetValue / MIN_TX_FEE;
+  uint32_t dp_tgt = nTargetValue / MIN_TXOUT_AMOUNT;
   if(dp_tgt < nMaxDP && (dp = (uint16_t*)calloc(dp_tgt + 1, sizeof(uint16_t))) != NULL) {
     dp[0] = 1; // Zero CENTs can be reached anyway
     uint16_t max_utxo_qty((1 << 16) - 2);
@@ -1092,7 +1092,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
     uint32_t min_over_sum  = ~0;
     // Apply UTXOs to DP array, until exact sum will be found
     for(uint16_t utxo_no = 0; utxo_no < max_utxo_qty && dp[dp_tgt] == 0; utxo_no++) {
-      uint32_t offset = vValue[utxo_no].first / MIN_TX_FEE;
+      uint32_t offset = vValue[utxo_no].first / MIN_TXOUT_AMOUNT;
       for(int32_t ndx = dp_tgt - 1; ndx >= 0; ndx--)
         if(dp[ndx]) {
 	  uint32_t nxt = ndx + offset;
@@ -1114,7 +1114,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
       uint16_t utxo_no = min_over_utxo - 1;
       setCoinsRet.insert(vValue[utxo_no].second);
       nValueRet += vValue[utxo_no].first;
-      min_over_sum -= vValue[utxo_no].first / MIN_TX_FEE;
+      min_over_sum -= vValue[utxo_no].first / MIN_TXOUT_AMOUNT;
       min_over_utxo = dp[min_over_sum];
     }
 
