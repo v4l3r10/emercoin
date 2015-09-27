@@ -992,7 +992,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
     // Maximap DP array size
     static uint32_t nMaxDP = 0;
     if(nMaxDP == 0) 
-        nMaxDP = GetArg("-maxdp", 1024 * 1024);
+        nMaxDP = GetArg("-maxdp", 8 * 1024 * 1024);
 
     // List of values less than target
     pair<int64, pair<const CWalletTx*,unsigned int> > coinLowestLarger;
@@ -1100,10 +1100,10 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
 	    if(dp[nxt] == 0)
 	      dp[nxt] = utxo_no + 1;
 	  } else
-	      if(nxt < min_over_sum) {
-		  min_over_sum = nxt;
-		  min_over_utxo = utxo_no + 1;
-	      }
+	    if(nxt < min_over_sum) {
+	      min_over_sum = nxt;
+	      min_over_utxo = utxo_no + 1;
+	    }
 	} // if(dp[ndx])
     } // for - UTXOs
 
@@ -1112,6 +1112,8 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
 
     while(min_over_sum) {
       uint16_t utxo_no = min_over_utxo - 1;
+      if (fDebug && GetBoolArg("-printselectcoin")) 
+        printf("SelectCoins() DP Added #%u: Val=%s\n", utxo_no, FormatMoney(vValue[utxo_no].first).c_str());
       setCoinsRet.insert(vValue[utxo_no].second);
       nValueRet += vValue[utxo_no].first;
       min_over_sum -= vValue[utxo_no].first / MIN_TXOUT_AMOUNT;
@@ -1122,19 +1124,17 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
 
     if(nValueRet >= nTargetValue) {
       //// debug print
-      if (fDebug && GetBoolArg("-printselectcoin")) {
+      if (fDebug && GetBoolArg("-printselectcoin")) 
         printf("SelectCoins() DP subset: Target=%s Found=%s Payback=%s Qty=%u\n", 
  	        FormatMoney(nTargetValue).c_str(), 
  	        FormatMoney(nValueRet).c_str(), 
 	        FormatMoney(nValueRet - nTargetValue).c_str(), 
 	        (unsigned)setCoinsRet.size()
 	        );
-      } else {
+      return true; // sum found by DP
+    } else {
 	nValueRet = 0;
 	setCoinsRet.clear();
-      }
- 
-      return true; // sum found by DP
     }
   } // DP compute
 
