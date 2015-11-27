@@ -984,6 +984,8 @@ int64 CWallet::GetNewMint() const
 }
 
 
+static bool CmpDepth(const CWalletTx* a, const CWalletTx* b) { return a->nTime > b->nTime; }
+
 bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, int nConfMine, int nConfTheirs, set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, int64& nValueRet) const
 {
     setCoinsRet.clear();
@@ -1007,7 +1009,21 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
        vCoins.reserve(mapWallet.size());
        for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
            vCoins.push_back(&(*it).second);
-       random_shuffle(vCoins.begin(), vCoins.end(), GetRandInt);
+    //   random_shuffle(vCoins.begin(), vCoins.end(), GetRandInt);
+
+       static int sortir = -1;
+       if(sortir < 0) 
+   	 sortir = GetArg("-sortir", 0);
+
+        switch(sortir) {
+	  case 1:
+	    sort(vCoins.begin(), vCoins.end(), CmpDepth);
+	    break;
+	  default:
+            random_shuffle(vCoins.begin(), vCoins.end(), GetRandInt);
+	    break;
+        } // switch
+
 
        BOOST_FOREACH(const CWalletTx* pcoin, vCoins)
        {
@@ -1085,6 +1101,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
   uint32_t dp_tgt = nTargetValue / MIN_TXOUT_AMOUNT;
   if(dp_tgt < nMaxDP && (dp = (uint16_t*)calloc(dp_tgt + 1, sizeof(uint16_t))) != NULL) {
     dp[0] = 1; // Zero CENTs can be reached anyway
+    uint32_t rlimit = 0; // Current Right Borer limit
     uint16_t max_utxo_qty((1 << 16) - 2);
     if(vValue.size() < max_utxo_qty)
 	max_utxo_qty = vValue.size();
@@ -1093,7 +1110,7 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
     // Apply UTXOs to DP array, until exact sum will be found
     for(uint16_t utxo_no = 0; utxo_no < max_utxo_qty && dp[dp_tgt] == 0; utxo_no++) {
       uint32_t offset = vValue[utxo_no].first / MIN_TXOUT_AMOUNT;
-      for(int32_t ndx = dp_tgt - 1; ndx >= 0; ndx--)
+      for(int32_t ndx = rlimit; ndx >= 0; ndx--)
         if(dp[ndx]) {
 	  uint32_t nxt = ndx + offset;
           if(nxt <= dp_tgt) {
@@ -1105,6 +1122,9 @@ bool CWallet::SelectCoinsMinConf(int64 nTargetValue, unsigned int nSpendTime, in
 	      min_over_utxo = utxo_no + 1;
 	    }
 	} // if(dp[ndx])
+        rlimit += offset;
+	if(rlimit >= dp_tgt)
+	  rlimit = dp_tgt - 1;
     } // for - UTXOs
 
     if(dp[dp_tgt] != 0)  // Found exactly sum without payback
