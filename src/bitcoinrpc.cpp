@@ -3408,7 +3408,9 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
 
     //namecoin
     if (strMethod == "name_new"               && n > 2) ConvertTo<boost::int64_t>(params[2]);
+    if (strMethod == "name_new"               && n > 4) ConvertTo<boost::int64_t>(params[4]);
     if (strMethod == "name_update"            && n > 2) ConvertTo<boost::int64_t>(params[2]);
+    if (strMethod == "name_update"            && n > 4) ConvertTo<boost::int64_t>(params[4]);
     if (strMethod == "name_filter"            && n > 1) ConvertTo<boost::int64_t>(params[1]);
     if (strMethod == "name_filter"            && n > 2) ConvertTo<boost::int64_t>(params[2]);
     if (strMethod == "name_filter"            && n > 3) ConvertTo<boost::int64_t>(params[3]);

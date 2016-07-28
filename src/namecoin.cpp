@@ -1225,10 +1225,12 @@ bool IsWalletLocked(NameTxReturn& ret)
 
 Value name_new(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() != 3)
+    if (fHelp || params.size() < 3 || params.size() > 5)
         throw runtime_error(
-                "name_new <name> <value> <days>\n"
+                "name_new <name> <value> <days> [address] [valueAsFilepath]\n"
                 "Creates new key->value pair which expires after specified number of days.\n"
+                "[address] does not currently work but will be added in the future\n"
+                "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format\n"
                 "Cost is square root of (1% of last PoW + 1% per year of last PoW)."
                 + HelpRequiringPassphrase());
 
@@ -1238,7 +1240,29 @@ Value name_new(const Array& params, bool fHelp)
     vector<unsigned char> vchName = vchFromValue(params[0]);
     vector<unsigned char> vchValue = vchFromValue(params[1]);
     int nRentalDays = params[2].get_int();
-    //printf("name_new(): vchValue.size = %lu\n", (unsigned long)vchValue.size());
+
+    bool fValueAsFilepath = false;
+    if (params.size() > 4)
+        fValueAsFilepath = (params[4].get_int() != 0);
+
+    if (fValueAsFilepath)
+    {
+        string filepath = stringFromVch(vchValue);
+        std::ifstream ifs;
+        ifs.open(filepath.c_str(), std::ios::binary | std::ios::ate);
+        if (!ifs)
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "failed to open file");
+        std::streampos fileSize = ifs.tellg();
+        if (fileSize > MAX_VALUE_LENGTH)
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "file is larger than maximum allowed size");
+
+        ifs.clear();
+        ifs.seekg(0, std::ios::beg);
+
+        vchValue.resize(fileSize);
+        if (!ifs.read(reinterpret_cast<char*>(&vchValue[0]), fileSize))
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "failed to read file");
+    }
 
     NameTxReturn ret = name_new(vchName, vchValue, nRentalDays);
     if (!ret.ok)
@@ -1320,9 +1344,11 @@ NameTxReturn name_new(const vector<unsigned char> &vchName,
 
 Value name_update(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() < 2 || params.size() > 4)
+    if (fHelp || params.size() < 3 || params.size() > 5)
         throw runtime_error(
-                "name_update <name> <value> <days> [<toaddress>]\nUpdate name value, add days to expiration time and possibly transfer a name to diffrent address."
+                "name_update <name> <value> <days> [toaddress] [valueAsFilepath]\n"
+                "Update name and value, add days to expiration time and transfer a name to diffrent address.\n"
+                "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format."
                 + HelpRequiringPassphrase());
 
     if (!IsSynchronized())
@@ -1332,9 +1358,31 @@ Value name_update(const Array& params, bool fHelp)
     vector<unsigned char> vchValue = vchFromValue(params[1]);
     int nRentalDays = params[2].get_int();
     string strAddress = "";
-    if (params.size() == 4)
+    if (params.size() > 3)
         strAddress = params[3].get_str();
-    //printf("name_update(): vchValue.size = %lu\n", (unsigned long)vchValue.size());
+
+    bool fValueAsFilepath = false;
+    if (params.size() > 4)
+        fValueAsFilepath = (params[4].get_int() != 0);
+
+    if (fValueAsFilepath)
+    {
+        string filepath = stringFromVch(vchValue);
+        std::ifstream ifs;
+        ifs.open(filepath.c_str(), std::ios::binary | std::ios::ate);
+        if (!ifs)
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "failed to open file");
+        std::streampos fileSize = ifs.tellg();
+        if (fileSize > MAX_VALUE_LENGTH)
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "file is larger than maximum allowed size");
+
+        ifs.clear();
+        ifs.seekg(0, std::ios::beg);
+
+        vchValue.resize(fileSize);
+        if (!ifs.read(reinterpret_cast<char*>(&vchValue[0]), fileSize))
+            throw JSONRPCError(RPC_INTERNAL_ERROR, "failed to read file");
+    }
 
     NameTxReturn ret = name_update(vchName, vchValue, nRentalDays, strAddress);
     if (!ret.ok)
