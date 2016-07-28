@@ -19,6 +19,9 @@ openssl req -new -newkey rsa:2048 -nodes -keyout $SERIAL.key \
  -subj "$SUBJ" \
  -out $SERIAL.csr
 
+#openssl ecparam -genkey -name secp256k1 -out $SERIAL.key
+#openssl req -new -key $SERIAL.key -subj "$SUBJ" -out $SERIAL.csr
+
 openssl ca -config CA/ca.config -in $SERIAL.csr -out $SERIAL.crt -batch
 
 echo
