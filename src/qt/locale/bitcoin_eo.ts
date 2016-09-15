@@ -62,11 +62,11 @@
         <translation>Ricevaj adresoj</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Gongxincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>Jen viaj Emermon-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Gongxincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation>Jen viaj emermonaj adresoj por ricevi pagojn. Estas konsilinde uzi apartan ricevan adreson por ĉiu transakcio.</translation>
     </message>
     <message>
@@ -156,7 +156,7 @@
         <translation>Konfirmo de ĉifrado de la monujo</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR EMERCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR GONGXINCOINS&lt;/b&gt;!</source>
         <translation>Atentu! Se vi ĉifras vian monujon kaj perdas la pasfrazon, vi &lt;b&gt;PERDOS LA TUTON DE VIA EMERMONO&lt;b&gt;!</translation>
     </message>
     <message>
@@ -176,7 +176,7 @@
         <translation>La monujo estas ĉifrita</translation>
     </message>
     <message>
-        <source>Emercoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your emercoins from being stolen by malware infecting your computer.</source>
+        <source>Gongxincoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your gongxincoins from being stolen by malware infecting your computer.</source>
         <translation>Emermono nun fermiĝos por fini la ĉifradon. Memoru, ke eĉ ĉifrado ne protektas kontraŭ ĉiu atako, ekz. se viruso infektus vian komputilon.</translation>
     </message>
     <message>
@@ -283,7 +283,7 @@
         <translation>Malfermi &amp;URI-on...</translation>
     </message>
     <message>
-        <source>Emercoin Core client</source>
+        <source>Gongxincoin Core client</source>
         <translation>kliento de emermon-kerno</translation>
     </message>
     <message>
@@ -295,11 +295,11 @@
         <translation>Reindeksado de blokoj sur disko...</translation>
     </message>
     <message>
-        <source>Send coins to an Emercoin address</source>
+        <source>Send coins to an Gongxincoin address</source>
         <translation>Sendi monon al Emermon-adreso</translation>
     </message>
     <message>
-        <source>Modify configuration options for Emercoin</source>
+        <source>Modify configuration options for Gongxincoin</source>
         <translation>Modifi agordaĵojn por Emermono</translation>
     </message>
     <message>
@@ -323,7 +323,7 @@
         <translation>&amp;Kontroli mesaĝon...</translation>
     </message>
     <message>
-        <source>Emercoin</source>
+        <source>Gongxincoin</source>
         <translation>Emermono</translation>
     </message>
     <message>
@@ -351,11 +351,11 @@
         <translation>Ĉifri la privatajn ŝlosilojn de via monujo</translation>
     </message>
     <message>
-        <source>Sign messages with your Emercoin addresses to prove you own them</source>
+        <source>Sign messages with your Gongxincoin addresses to prove you own them</source>
         <translation>Subskribi mesaĝojn per via Emermon-adresoj por pravigi, ke vi estas la posedanto</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Emercoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Gongxincoin addresses</source>
         <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Emermon-adresoj</translation>
     </message>
     <message>
@@ -375,15 +375,15 @@
         <translation>Langeto-breto</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
+        <source>Gongxincoin Core</source>
         <translation>Kerno de Emermono</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and emercoin: URIs)</source>
-        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso emercoin:)</translation>
+        <source>Request payments (generates QR codes and gongxincoin: URIs)</source>
+        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso gongxincoin:)</translation>
     </message>
     <message>
-        <source>&amp;About Emercoin Core</source>
+        <source>&amp;About Gongxincoin Core</source>
         <translation>&amp;Pri la Emermona Kerno</translation>
     </message>
     <message>
@@ -395,15 +395,15 @@
         <translation>Vidigi la liston de uzitaj ricevaj adresoj kaj etikedoj</translation>
     </message>
     <message>
-        <source>Open a emercoin: URI or payment request</source>
-        <translation>Malfermi emercoin:-URI-on aŭ pagpeton</translation>
+        <source>Open a gongxincoin: URI or payment request</source>
+        <translation>Malfermi gongxincoin:-URI-on aŭ pagpeton</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Komandliniaj agordaĵoj</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Emercoin network</source>
+        <source>%n active connection(s) to Gongxincoin network</source>
         <translation><numerusform>%n aktiva konekto al la emermona reto</numerusform><numerusform>%n aktivaj konektoj al la emermona reto</numerusform></translation>
     </message>
     <message>
@@ -736,7 +736,7 @@ Adreso: %4
         <translation>La adreso enigita "%1" jam ekzistas en la adresaro.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Emercoin address.</source>
+        <source>The entered address "%1" is not a valid Gongxincoin address.</source>
         <translation>La adreso enigita "%1" ne estas valida Emermon-adreso.</translation>
     </message>
     <message>
@@ -774,7 +774,7 @@ Adreso: %4
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Emercoin Core</source>
+        <source>Gongxincoin Core</source>
         <translation>Kerno de Emermono</translation>
     </message>
     <message>
@@ -782,7 +782,7 @@ Adreso: %4
         <translation>versio</translation>
     </message>
     <message>
-        <source>About Emercoin Core</source>
+        <source>About Gongxincoin Core</source>
         <translation>Pri la Emermona Kerno</translation>
     </message>
     <message>
@@ -825,16 +825,16 @@ Adreso: %4
         <translation>Bonvenon</translation>
     </message>
     <message>
-        <source>Welcome to Emercoin Core.</source>
-        <translation>Bonvenon al la emermona kerno, Emercoin Core.</translation>
+        <source>Welcome to Gongxincoin Core.</source>
+        <translation>Bonvenon al la emermona kerno, Gongxincoin Core.</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where Emercoin Core will store its data.</source>
-        <translation>Dum tiu ĉi unua uzo de la programo, vi povas elekti lokon, kie Emercoin Core stokos siajn datumojn.</translation>
+        <source>As this is the first time the program is launched, you can choose where Gongxincoin Core will store its data.</source>
+        <translation>Dum tiu ĉi unua uzo de la programo, vi povas elekti lokon, kie Gongxincoin Core stokos siajn datumojn.</translation>
     </message>
     <message>
-        <source>Emercoin Core will download and store a copy of the Emercoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Emercoin Core elŝutos kaj konservos kopion de la emermona blokĉeno. Almenaŭ %1GB da datumoj konserviĝos en tiu loko, kaj tio poiome kreskos. Ankaŭ via monujo konserviĝos en tiu dosierujo.</translation>
+        <source>Gongxincoin Core will download and store a copy of the Gongxincoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>Gongxincoin Core elŝutos kaj konservos kopion de la emermona blokĉeno. Almenaŭ %1GB da datumoj konserviĝos en tiu loko, kaj tio poiome kreskos. Ankaŭ via monujo konserviĝos en tiu dosierujo.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -845,7 +845,7 @@ Adreso: %4
         <translation>Uzi alian dosierujon por datumoj:</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
+        <source>Gongxincoin Core</source>
         <translation>Kerno de Emermono</translation>
     </message>
     <message>
@@ -887,11 +887,11 @@ Adreso: %4
         <translation>Ĉ&amp;efa</translation>
     </message>
     <message>
-        <source>Automatically start Emercoin after logging in to the system.</source>
+        <source>Automatically start Gongxincoin after logging in to the system.</source>
         <translation>Aŭtomate lanĉi Emermonon post ensaluto al la sistemo.</translation>
     </message>
     <message>
-        <source>&amp;Start Emercoin on system login</source>
+        <source>&amp;Start Gongxincoin on system login</source>
         <translation>&amp;Lanĉi Emermonon tuj post ensaluto al la sistemo</translation>
     </message>
     <message>
@@ -915,7 +915,7 @@ Adreso: %4
         <translation>&amp;Reto</translation>
     </message>
     <message>
-        <source>Automatically open the Emercoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <source>Automatically open the Gongxincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>Aŭtomate malfermi la kursilan pordon por Emermono. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
     </message>
     <message>
@@ -963,7 +963,7 @@ Adreso: %4
         <translation>&amp;Lingvo de la fasado:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Emercoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Gongxincoin.</source>
         <translation>Vi povas elekti la lingvon uzata en la aplikaĵo ĉi tie. Tiu ekefikos nur post relanĉo de Emermono.</translation>
     </message>
     <message>
@@ -1010,7 +1010,7 @@ Adreso: %4
         <translation>Formularo</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Emercoin network after a connection is established, but this process has not completed yet.</source>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Gongxincoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Eblas, ke la informoj videblaj ĉi tie estas eksdataj. Via monujo aŭtomate sinkoniĝas kun la emermona reto kiam ili konektiĝas, sed tiu procezo ankoraŭ ne finfariĝis.</translation>
     </message>
     <message>
@@ -1061,7 +1061,7 @@ Adreso: %4
         <translation>Eraro dum pagopeto</translation>
     </message>
     <message>
-        <source>Cannot start emercoin: click-to-pay handler</source>
+        <source>Cannot start gongxincoin: click-to-pay handler</source>
         <translation>Ne eblas lanĉi la ilon 'klaki-por-pagi'</translation>
     </message>
     <message>
@@ -1221,7 +1221,7 @@ Adreso: %4
         <translation>Sencimiga protokoldosiero</translation>
     </message>
     <message>
-        <source>Open the Emercoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <source>Open the Gongxincoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
         <translation>Malfermi la sencimiga protokoldosiero de Emermono el la aktuala dosierujo por datumoj. Tio eble daŭros plurajn sekundojn por granda protokoldosiero.</translation>
     </message>
     <message>
@@ -1229,7 +1229,7 @@ Adreso: %4
         <translation>Malplenigi konzolon</translation>
     </message>
     <message>
-        <source>Welcome to the Emercoin RPC console.</source>
+        <source>Welcome to the Gongxincoin RPC console.</source>
         <translation>Bonvenon al la RPC-konzolo de Emermono.</translation>
     </message>
     <message>
@@ -1537,7 +1537,7 @@ Adreso: %4
         <translation>Kreo de transakcio fiaskis!</translation>
     </message>
     <message>
-        <source>Warning: Invalid Emercoin address</source>
+        <source>Warning: Invalid Gongxincoin address</source>
         <translation>Averto: Nevalida Emermon-adreso</translation>
     </message>
     <message>
@@ -1662,7 +1662,7 @@ Adreso: %4
         <translation>Kopii la aktualan subskribon al la tondejo</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Emercoin address</source>
+        <source>Sign the message to prove you own this Gongxincoin address</source>
         <translation>Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Emermon-adreso</translation>
     </message>
     <message>
@@ -1686,7 +1686,7 @@ Adreso: %4
         <translation>Enmeti la subskriban adreson, la mesaĝon (kune kun ĉiu linisalto, spaceto, taboj, ktp. precize) kaj la subskribon ĉi sube por kontroli la mesaĝon. Atentu, ke vi ne komprenu per la subskribo pli ol la enhavo de la mesaĝo mem, por eviti homo-en-la-mezo-atakon.</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Emercoin address</source>
+        <source>Verify the message to ensure it was signed with the specified Gongxincoin address</source>
         <translation>Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Emermon-adreso</translation>
     </message>
     <message>
@@ -1753,11 +1753,11 @@ Adreso: %4
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Emercoin Core</source>
+        <source>Gongxincoin Core</source>
         <translation>Kerno de Emermono</translation>
     </message>
     <message>
-        <source>The Emercoin Core developers</source>
+        <source>The Gongxincoin Core developers</source>
         <translation>La programistoj de Emermona Kerno</translation>
     </message>
     <message>

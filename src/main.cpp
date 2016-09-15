@@ -35,7 +35,7 @@ using namespace boost;
 using namespace std;
 
 #if defined(NDEBUG)
-# error "Emercoin cannot be compiled without assertions."
+# error "Gongxincoin cannot be compiled without assertions."
 #endif
 
 /**
@@ -80,8 +80,8 @@ static void CheckBlockIndex();
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "EmerCoin Signed Message:\n";
-CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of code inside standart emercoin functions.
+const string strMessageMagic = "GongxinCoin Signed Message:\n";
+CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of code inside standart gongxincoin functions.
 
 // Internal stuff
 namespace {
@@ -1275,12 +1275,12 @@ double GetDifficulty(unsigned int nBits)
 
 bool GuessPoS(const CBlockHeader& header)
 {
-    // emercoin: return false if time is below block 10 000 - we have no PoS blocks below 10 000 in our official blockchain.
+    // gongxincoin: return false if time is below block 10 000 - we have no PoS blocks below 10 000 in our official blockchain.
     // this is important, because on early blocks difficulty was very low (starting from 1) and we can confuse PoS with PoW.
     if (header.nTime < 1387258928)
         return false;
 
-    // emercoin: in our official blockchain we currently have max PoS == 37.4635 (for blocks 1..129646)
+    // gongxincoin: in our official blockchain we currently have max PoS == 37.4635 (for blocks 1..129646)
     // it is probably safe to assume that it won't go over 1000
     // it is also probably safe to assume, that PoW difficulty will never drop to 1000 or below (it would require less than 7.15 GH/S of mining power over entire network!)
     return GetDifficulty(header.nBits) <= 1000 ? true : false;
@@ -1711,7 +1711,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         }
     }
 
-    // emercoin: undo name transactions in reverse order
+    // gongxincoin: undo name transactions in reverse order
     if (fWriteNames)
         for (int i = block.vtx.size() - 1; i >= 0; i--)
             hooks->DisconnectInputs(block.vtx[i]);
@@ -1759,7 +1759,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("emercoin-scriptch");
+    RenameThread("gongxincoin-scriptch");
     scriptcheckqueue.Thread();
 }
 
@@ -1985,7 +1985,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     pindex->nMint = nValueOut - nValueIn + nFees;
     pindex->nMoneySupply = (pindex->pprev? pindex->pprev->nMoneySupply : 0) + nValueOut - nValueIn;
 
-    // emercoin: collect valid name tx
+    // gongxincoin: collect valid name tx
     // NOTE: tx.UpdateCoins should not affect this loop, probably...
     vector<nameTempProxy> vName;
     if (fWriteNames)
@@ -2033,7 +2033,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime4 = GetTimeMicros(); nTimeCallbacks += nTime4 - nTime3;
     LogPrint("bench", "    - Callbacks: %.2fms [%.2fs]\n", 0.001 * (nTime4 - nTime3), nTimeCallbacks * 0.000001);
 
-    // emercoin: add names to nameindex.dat
+    // gongxincoin: add names to nameindex.dat
     if (fWriteNames)
         hooks->ConnectBlock(pindex, vName);
 
@@ -2882,7 +2882,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, bool fProofOfStake, C
         }
         else
         {
-            // this is needed only for emercoin official blockchain, because of mistake we made at the beginning
+            // this is needed only for gongxincoin official blockchain, because of mistake we made at the beginning
             unsigned int check = GetNextTargetRequired(pindexPrev, fProofOfStake);
             unsigned int max_error = check / 100000;
             if (!(block.nBits >= check - max_error && block.nBits <= check + max_error)) // +- 0.001% interval
@@ -2986,7 +2986,7 @@ bool AcceptBlockHeader(const CBlockHeader& block, bool fProofOfStake, CValidatio
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
 
-    // emercoin: set PoS flag for CBlockIndex. This should probably be done immediately after we added header to CBlockIndex (i.e., after or inside AddToBlockIndex),
+    // gongxincoin: set PoS flag for CBlockIndex. This should probably be done immediately after we added header to CBlockIndex (i.e., after or inside AddToBlockIndex),
     // since I do not know when it will flush block index to disk
     if (fProofOfStake)
         pindex->SetProofOfStake();
@@ -3118,7 +3118,7 @@ void CBlockIndex::BuildSkip()
 bool ProcessNewBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBlockPos *dbp)
 {
     // Preliminary checks
-    //bool checked = CheckBlock(*pblock, state); // emercoin: removed, since this check happens later in AcceptBlock function
+    //bool checked = CheckBlock(*pblock, state); // gongxincoin: removed, since this check happens later in AcceptBlock function
 
     {
         LOCK(cs_main);
@@ -4082,7 +4082,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
     }
 
 
-    // emercoin: set/unset network serialization mode for new clients
+    // gongxincoin: set/unset network serialization mode for new clients
     if (pfrom->nVersion < 70002)
     {
         vRecv.nType         &= ~SER_POSMARKER;

@@ -24,7 +24,7 @@ std::string HelpMessageCli()
     string strUsage;
     strUsage += _("Options:") + "\n";
     strUsage += "  -?                     " + _("This help message") + "\n";
-    strUsage += "  -conf=<file>           " + strprintf(_("Specify configuration file (default: %s)"), "emercoin.conf") + "\n";
+    strUsage += "  -conf=<file>           " + strprintf(_("Specify configuration file (default: %s)"), "gongxincoin.conf") + "\n";
     strUsage += "  -datadir=<dir>         " + _("Specify data directory") + "\n";
     strUsage += "  -testnet               " + _("Use the test network") + "\n";
     strUsage += "  -regtest               " + _("Enter regression test mode, which uses a special chain in which blocks can be "
@@ -67,12 +67,12 @@ static bool AppInitRPC(int argc, char* argv[])
     //
     ParseParameters(argc, argv);
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version")) {
-        std::string strUsage = _("Emercoin Core RPC client version") + " " + FormatFullVersion() + "\n";
+        std::string strUsage = _("Gongxincoin Core RPC client version") + " " + FormatFullVersion() + "\n";
         if (!mapArgs.count("-version")) {
             strUsage += "\n" + _("Usage:") + "\n" +
-                  "  emercoin-cli [options] <command> [params]  " + _("Send command to Emercoin Core") + "\n" +
-                  "  emercoin-cli [options] help                " + _("List commands") + "\n" +
-                  "  emercoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
+                  "  gongxincoin-cli [options] <command> [params]  " + _("Send command to Gongxincoin Core") + "\n" +
+                  "  gongxincoin-cli [options] help                " + _("List commands") + "\n" +
+                  "  gongxincoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
 
             strUsage += "\n" + HelpMessageCli();
         }

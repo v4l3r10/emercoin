@@ -66,12 +66,12 @@
         <translation>Adres odbiorczy</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Tutaj znajdują się adresy Emercoin na które wysyłasz płatności. Zawsze sprawdzaj ilość i adres odbiorcy przed wysyłką monet.</translation>
+        <source>These are your Gongxincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Tutaj znajdują się adresy Gongxincoin na które wysyłasz płatności. Zawsze sprawdzaj ilość i adres odbiorcy przed wysyłką monet.</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>To twoje adresy Emercoin, na które otrzymujesz płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej transakcji.</translation>
+        <source>These are your Gongxincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>To twoje adresy Gongxincoin, na które otrzymujesz płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej transakcji.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -164,8 +164,8 @@
         <translation>Potwierdź szyfrowanie portfela</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR EMERCOINS&lt;/b&gt;!</source>
-        <translation>Uwaga: Jeśli zaszyfrujesz swój portfel i zgubisz hasło to &lt;b&gt;STRACISZ WSZYSTKIE SWOJE EMERCOIN'Y&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR GONGXINCOINS&lt;/b&gt;!</source>
+        <translation>Uwaga: Jeśli zaszyfrujesz swój portfel i zgubisz hasło to &lt;b&gt;STRACISZ WSZYSTKIE SWOJE GONGXINCOIN'Y&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -188,8 +188,8 @@
         <translation>Wprowadź nowe hasło do portfela.&lt;br/&gt;Proszę używać hasła złożonego z &lt;b&gt;10 lub więcej losowych znaków&lt;/b&gt; lub &lt;b&gt;ośmiu lub więcej słów.&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>Emercoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your emercoins from being stolen by malware infecting your computer.</source>
-        <translation>Program Emercoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich emercoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
+        <source>Gongxincoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your gongxincoins from being stolen by malware infecting your computer.</source>
+        <translation>Program Gongxincoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich gongxincoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -295,8 +295,8 @@
         <translation>Otwórz URI...</translation>
     </message>
     <message>
-        <source>Emercoin Core client</source>
-        <translation>Rdzeń klienta Emercoin</translation>
+        <source>Gongxincoin Core client</source>
+        <translation>Rdzeń klienta Gongxincoin</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -307,12 +307,12 @@
         <translation>Ponowne indeksowanie bloków na dysku...</translation>
     </message>
     <message>
-        <source>Send coins to an Emercoin address</source>
-        <translation>Wyślij monety na adres Emercoin</translation>
+        <source>Send coins to an Gongxincoin address</source>
+        <translation>Wyślij monety na adres Gongxincoin</translation>
     </message>
     <message>
-        <source>Modify configuration options for Emercoin</source>
-        <translation>Zmienia opcje konfiguracji emercoina</translation>
+        <source>Modify configuration options for Gongxincoin</source>
+        <translation>Zmienia opcje konfiguracji gongxincoina</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -335,8 +335,8 @@
         <translation>&amp;Zweryfikuj wiadomość...</translation>
     </message>
     <message>
-        <source>Emercoin</source>
-        <translation>Emercoin</translation>
+        <source>Gongxincoin</source>
+        <translation>Gongxincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -351,8 +351,8 @@
         <translation>Odbie&amp;rz</translation>
     </message>
     <message>
-        <source>Show information about Emercoin Core</source>
-        <translation>Pokaż informacje o Rdzeniu Emercoin</translation>
+        <source>Show information about Gongxincoin Core</source>
+        <translation>Pokaż informacje o Rdzeniu Gongxincoin</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -367,12 +367,12 @@
         <translation>Szyfruj klucze prywatne, które są w Twoim portfelu</translation>
     </message>
     <message>
-        <source>Sign messages with your Emercoin addresses to prove you own them</source>
+        <source>Sign messages with your Gongxincoin addresses to prove you own them</source>
         <translation>Podpisz wiadomości swoim adresem aby udowodnić jego posiadanie</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Emercoin addresses</source>
-        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana podanym adresem Emercoin.</translation>
+        <source>Verify messages to ensure they were signed with specified Gongxincoin addresses</source>
+        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana podanym adresem Gongxincoin.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -391,16 +391,16 @@
         <translation>Pasek zakładek</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Rdzeń Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Rdzeń Gongxincoin</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and emercoin: URIs)</source>
-        <translation>Żądaj płatności (generuje kod QR oraz emercoin URI)</translation>
+        <source>Request payments (generates QR codes and gongxincoin: URIs)</source>
+        <translation>Żądaj płatności (generuje kod QR oraz gongxincoin URI)</translation>
     </message>
     <message>
-        <source>&amp;About Emercoin Core</source>
-        <translation>&amp;O Emercoin Core</translation>
+        <source>&amp;About Gongxincoin Core</source>
+        <translation>&amp;O Gongxincoin Core</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -411,20 +411,20 @@
         <translation>Pokaż listę adresów i etykiet użytych do odbierania</translation>
     </message>
     <message>
-        <source>Open a emercoin: URI or payment request</source>
-        <translation>Otwórz URI emercoin: lub żądanie zapłaty</translation>
+        <source>Open a gongxincoin: URI or payment request</source>
+        <translation>Otwórz URI gongxincoin: lub żądanie zapłaty</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Opcje linii komend</translation>
     </message>
     <message>
-        <source>Show the Emercoin Core help message to get a list with possible Emercoin command-line options</source>
-        <translation>Pokaż pomoc Rdzenia Emercoin, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
+        <source>Show the Gongxincoin Core help message to get a list with possible Gongxincoin command-line options</source>
+        <translation>Pokaż pomoc Rdzenia Gongxincoin, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Emercoin network</source>
-        <translation><numerusform>%n aktywne połączenie do sieci Emercoin</numerusform><numerusform>%n aktywne połączenia do sieci Emercoin</numerusform><numerusform>%n aktywnych połączeń do sieci Emercoin</numerusform></translation>
+        <source>%n active connection(s) to Gongxincoin network</source>
+        <translation><numerusform>%n aktywne połączenie do sieci Gongxincoin</numerusform><numerusform>%n aktywne połączenia do sieci Gongxincoin</numerusform><numerusform>%n aktywnych połączeń do sieci Gongxincoin</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -788,8 +788,8 @@ Adres: %4
         <translation>Wprowadzony adres "%1" już istnieje w książce adresowej.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Emercoin address.</source>
-        <translation>Wprowadzony adres "%1" nie jest poprawnym adresem Emercoin.</translation>
+        <source>The entered address "%1" is not a valid Gongxincoin address.</source>
+        <translation>Wprowadzony adres "%1" nie jest poprawnym adresem Gongxincoin.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -826,8 +826,8 @@ Adres: %4
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Rdzeń Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Rdzeń Gongxincoin</translation>
     </message>
     <message>
         <source>version</source>
@@ -838,8 +838,8 @@ Adres: %4
         <translation>(%1-bit)</translation>
     </message>
     <message>
-        <source>About Emercoin Core</source>
-        <translation>O Emercoin Core</translation>
+        <source>About Gongxincoin Core</source>
+        <translation>O Gongxincoin Core</translation>
     </message>
     <message>
         <source>Command-line options</source>
@@ -885,16 +885,16 @@ Adres: %4
         <translation>Witaj</translation>
     </message>
     <message>
-        <source>Welcome to Emercoin Core.</source>
-        <translation>Witam w Emercoin Core</translation>
+        <source>Welcome to Gongxincoin Core.</source>
+        <translation>Witam w Gongxincoin Core</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where Emercoin Core will store its data.</source>
-        <translation>Ponieważ jest to pierwsze uruchomienie programu, możesz wybrać gdzie Emercoin Core będzie przechowywał swoje dane.</translation>
+        <source>As this is the first time the program is launched, you can choose where Gongxincoin Core will store its data.</source>
+        <translation>Ponieważ jest to pierwsze uruchomienie programu, możesz wybrać gdzie Gongxincoin Core będzie przechowywał swoje dane.</translation>
     </message>
     <message>
-        <source>Emercoin Core will download and store a copy of the Emercoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Program pobierze i będzie przechowywał kopię łańcucha bloków Emercoin. W wybranym katalogu musi być przynajmniej %1GB miejsca, a z czasem ilość danych będzie rosła. Portfel będzie przechowywany w tym samym katalogu.</translation>
+        <source>Gongxincoin Core will download and store a copy of the Gongxincoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>Program pobierze i będzie przechowywał kopię łańcucha bloków Gongxincoin. W wybranym katalogu musi być przynajmniej %1GB miejsca, a z czasem ilość danych będzie rosła. Portfel będzie przechowywany w tym samym katalogu.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -905,8 +905,8 @@ Adres: %4
         <translation>Użyj wybranego folderu dla danych</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Rdzeń Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Rdzeń Gongxincoin</translation>
     </message>
     <message>
         <source>Error: Specified data directory "%1" cannot be created.</source>
@@ -959,12 +959,12 @@ Adres: %4
         <translation>Główne</translation>
     </message>
     <message>
-        <source>Automatically start Emercoin after logging in to the system.</source>
-        <translation>Automatycznie uruchamia Emercoin po zalogowaniu do systemu.</translation>
+        <source>Automatically start Gongxincoin after logging in to the system.</source>
+        <translation>Automatycznie uruchamia Gongxincoin po zalogowaniu do systemu.</translation>
     </message>
     <message>
-        <source>&amp;Start Emercoin on system login</source>
-        <translation>Uruchamiaj Emercoin wraz z zalogowaniem do &amp;systemu</translation>
+        <source>&amp;Start Gongxincoin on system login</source>
+        <translation>Uruchamiaj Gongxincoin wraz z zalogowaniem do &amp;systemu</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -1027,16 +1027,16 @@ Adres: %4
         <translation>Wydaj niepotwierdzoną re&amp;sztę</translation>
     </message>
     <message>
-        <source>Automatically open the Emercoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatycznie otwiera port klienta Emercoin na routerze. Ta opcja dzieła tylko jeśli twój router wspiera UPnP i jest ono włączone.</translation>
+        <source>Automatically open the Gongxincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatycznie otwiera port klienta Gongxincoin na routerze. Ta opcja dzieła tylko jeśli twój router wspiera UPnP i jest ono włączone.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>Mapuj port używając &amp;UPnP</translation>
     </message>
     <message>
-        <source>Connect to the Emercoin network through a SOCKS5 proxy.</source>
-        <translation>Połącz się z siecią Emercoin poprzez proxy SOCKS5.</translation>
+        <source>Connect to the Gongxincoin network through a SOCKS5 proxy.</source>
+        <translation>Połącz się z siecią Gongxincoin poprzez proxy SOCKS5.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1083,8 +1083,8 @@ Adres: %4
         <translation>Język &amp;Użytkownika:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Emercoin.</source>
-        <translation>Można tu ustawić język interfejsu uzytkownika. Żeby ustawienie przyniosło skutek trzeba uruchomić ponownie Emercoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Gongxincoin.</source>
+        <translation>Można tu ustawić język interfejsu uzytkownika. Żeby ustawienie przyniosło skutek trzeba uruchomić ponownie Gongxincoin.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1142,8 +1142,8 @@ Adres: %4
         <translation>Formularz</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Emercoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią emercoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Gongxincoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią gongxincoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1249,8 +1249,8 @@ Adres: %4
         <translation>Błąd żądania płatności</translation>
     </message>
     <message>
-        <source>Cannot start emercoin: click-to-pay handler</source>
-        <translation>Nie można uruchomić protokołu emercoin: kliknij-by-zapłacić</translation>
+        <source>Cannot start gongxincoin: click-to-pay handler</source>
+        <translation>Nie można uruchomić protokołu gongxincoin: kliknij-by-zapłacić</translation>
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
@@ -1295,8 +1295,8 @@ Adres: %4
         <translation>Kwota</translation>
     </message>
     <message>
-        <source>Enter an Emercoin address (e.g. %1)</source>
-        <translation>Wprowadź adres Emercoin (np. %1)</translation>
+        <source>Enter an Gongxincoin address (e.g. %1)</source>
+        <translation>Wprowadź adres Gongxincoin (np. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1497,16 +1497,16 @@ Adres: %4
         <translation>Plik logowania debugowania</translation>
     </message>
     <message>
-        <source>Open the Emercoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Otwórz plik logowania debugowania Emercoin z obecnego katalogu z danymi. Może to potrwać kilka sekund przy większych plikach.</translation>
+        <source>Open the Gongxincoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Otwórz plik logowania debugowania Gongxincoin z obecnego katalogu z danymi. Może to potrwać kilka sekund przy większych plikach.</translation>
     </message>
     <message>
         <source>Clear console</source>
         <translation>Wyczyść konsolę</translation>
     </message>
     <message>
-        <source>Welcome to the Emercoin RPC console.</source>
-        <translation>Witam w konsoli Emercoin RPC.</translation>
+        <source>Welcome to the Gongxincoin RPC console.</source>
+        <translation>Witam w konsoli Gongxincoin RPC.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -1941,8 +1941,8 @@ Adres: %4
         <translation>Płac tylko minimalna opłatę %1</translation>
     </message>
     <message>
-        <source>Warning: Invalid Emercoin address</source>
-        <translation>Ostrzeżenie: nieprawidłowy adres Emercoin</translation>
+        <source>Warning: Invalid Gongxincoin address</source>
+        <translation>Ostrzeżenie: nieprawidłowy adres Gongxincoin</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2035,8 +2035,8 @@ Adres: %4
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>Emercoin Core is shutting down...</source>
-        <translation>Emercoin Core się zamyka...</translation>
+        <source>Gongxincoin Core is shutting down...</source>
+        <translation>Gongxincoin Core się zamyka...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -2086,7 +2086,7 @@ Adres: %4
         <translation>Kopiuje aktualny podpis do schowka systemowego</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Emercoin address</source>
+        <source>Sign the message to prove you own this Gongxincoin address</source>
         <translation>Podpisz wiadomość aby dowieść, że ten adres jest twój</translation>
     </message>
     <message>
@@ -2110,8 +2110,8 @@ Adres: %4
         <translation>Wpisz adres podpisu, wiadomość (upewnij się, że dokładnie skopiujesz wszystkie zakończenia linii, spacje, tabulacje itp.) oraz podpis poniżej by sprawdzić wiadomość. Uważaj by nie dodać więcej do podpisu niż do samej podpisywanej wiadomości by uniknąć ataku man-in-the-middle (człowiek pośrodku)</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Emercoin address</source>
-        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Emercoin.</translation>
+        <source>Verify the message to ensure it was signed with the specified Gongxincoin address</source>
+        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Gongxincoin.</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2177,12 +2177,12 @@ Adres: %4
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Rdzeń Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Rdzeń Gongxincoin</translation>
     </message>
     <message>
-        <source>The Emercoin Core developers</source>
-        <translation>Deweloperzy Emercoin Core</translation>
+        <source>The Gongxincoin Core developers</source>
+        <translation>Deweloperzy Gongxincoin Core</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -2687,8 +2687,8 @@ Adres: %4
         <translation>To jest testowa wersja - używaj na własne ryzyko - nie używaj do wykopywania oraz przy aplikacjach kupieckich</translation>
     </message>
     <message>
-        <source>Unable to bind to %s on this computer. Emercoin Core is probably already running.</source>
-        <translation>Nie można przywiązać z portem %s na tym komputerze. Emercoin Core prawdopodobnie już działa.</translation>
+        <source>Unable to bind to %s on this computer. Gongxincoin Core is probably already running.</source>
+        <translation>Nie można przywiązać z portem %s na tym komputerze. Gongxincoin Core prawdopodobnie już działa.</translation>
     </message>
     <message>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
@@ -2859,8 +2859,8 @@ Adres: %4
         <translation>Napotkano błąd podczas ustawiania adres RPC %s port %u dla nasłuchiwania: %s</translation>
     </message>
     <message>
-        <source>Cannot obtain a lock on data directory %s. Emercoin Core is probably already running.</source>
-        <translation>Nie można uzyskać blokady na katalogu z danymi %s. Rdzeń Emercoin najprawdopodobniej jest już uruchomiony.</translation>
+        <source>Cannot obtain a lock on data directory %s. Gongxincoin Core is probably already running.</source>
+        <translation>Nie można uzyskać blokady na katalogu z danymi %s. Rdzeń Gongxincoin najprawdopodobniej jest już uruchomiony.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
@@ -2907,12 +2907,12 @@ Adres: %4
         <translation>Połącz przez SOCKS5 proxy</translation>
     </message>
     <message>
-        <source>Copyright (C) 2013-%i The Emercoin Core Developers</source>
-        <translation>Copyright (C) 2013-%i The Emercoin Core Developers</translation>
+        <source>Copyright (C) 2013-%i The Gongxincoin Core Developers</source>
+        <translation>Copyright (C) 2013-%i The Gongxincoin Core Developers</translation>
     </message>
     <message>
-        <source>Error loading wallet.dat: Wallet requires newer version of Emercoin Core</source>
-        <translation>Błąd ładowania wallet.dat: Portfel wymaga nowszej wersji Emercoin Core</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Gongxincoin Core</source>
+        <translation>Błąd ładowania wallet.dat: Portfel wymaga nowszej wersji Gongxincoin Core</translation>
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>
@@ -2923,16 +2923,16 @@ Adres: %4
         <translation>Błąd: Znaleziono nieprawidłowy argument -tor, użyj -onion.</translation>
     </message>
     <message>
-        <source>Fee (in EMC/Kb) to add to transactions you send (default: %s)</source>
-        <translation>Prowizja (w EMC za kB) dodawana do wysyłanej transakcji (domyślnie: %s)</translation>
+        <source>Fee (in GXC/Kb) to add to transactions you send (default: %s)</source>
+        <translation>Prowizja (w GXC za kB) dodawana do wysyłanej transakcji (domyślnie: %s)</translation>
     </message>
     <message>
         <source>Information</source>
         <translation>Informacja</translation>
     </message>
     <message>
-        <source>Initialization sanity check failed. Emercoin Core is shutting down.</source>
-        <translation>Wstępna kontrola poprawności nie powiodła się. Emercoin Core wyłącza się.</translation>
+        <source>Initialization sanity check failed. Gongxincoin Core is shutting down.</source>
+        <translation>Wstępna kontrola poprawności nie powiodła się. Gongxincoin Core wyłącza się.</translation>
     </message>
     <message>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
@@ -3023,8 +3023,8 @@ Adres: %4
         <translation>Nazwa użytkownika dla połączeń JSON-RPC</translation>
     </message>
     <message>
-        <source>Wallet needed to be rewritten: restart Emercoin Core to complete</source>
-        <translation>Portfel wymaga przepisania: zrestartuj Emercoina aby ukończyć</translation>
+        <source>Wallet needed to be rewritten: restart Gongxincoin Core to complete</source>
+        <translation>Portfel wymaga przepisania: zrestartuj Gongxincoina aby ukończyć</translation>
     </message>
     <message>
         <source>Warning</source>

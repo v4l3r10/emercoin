@@ -62,12 +62,12 @@
         <translation>Adresa za primanje</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ovo su vaše Emercoin adrese za slanje uplate. Uvijek provjerite iznos i adresu primatelja prije slanja novca.</translation>
+        <source>These are your Gongxincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ovo su vaše Gongxincoin adrese za slanje uplate. Uvijek provjerite iznos i adresu primatelja prije slanja novca.</translation>
     </message>
     <message>
-        <source>These are your Emercoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ovo su vaše Emercoin adrese za primanje isplate. Preporučamo da koristite novu primateljsku adresu za svaku transakciju.</translation>
+        <source>These are your Gongxincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Ovo su vaše Gongxincoin adrese za primanje isplate. Preporučamo da koristite novu primateljsku adresu za svaku transakciju.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -160,8 +160,8 @@
         <translation>Potvrdi šifriranje novčanika</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR EMERCOINS&lt;/b&gt;!</source>
-        <translation>Upozorenje: Ako šifrirate vaš novčanik i izgubite lozinku, &lt;b&gt;IZGUBIT ĆETE SVE SVOJE EMERCOINSE!&lt;/b&gt;</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR GONGXINCOINS&lt;/b&gt;!</source>
+        <translation>Upozorenje: Ako šifrirate vaš novčanik i izgubite lozinku, &lt;b&gt;IZGUBIT ĆETE SVE SVOJE GONGXINCOINSE!&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -184,8 +184,8 @@
         <translation>Unesite novu lozinku za novčanik. &lt;br/&gt;Molimo Vas da koristite zaporku od &lt;b&gt;deset ili više slučajnih znakova&lt;/b&gt;, ili &lt;b&gt;osam ili više riječi.&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>Emercoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your emercoins from being stolen by malware infecting your computer.</source>
-        <translation>Emercoin će se sada zatvoriti kako bi dovršio postupak šifriranja. Zapamtite da šifriranje vašeg novčanika ne može u potpunosti zaštititi vaše emercoine od krađe preko zloćudnog softvera koji bi bio na vašem računalu.</translation>
+        <source>Gongxincoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your gongxincoins from being stolen by malware infecting your computer.</source>
+        <translation>Gongxincoin će se sada zatvoriti kako bi dovršio postupak šifriranja. Zapamtite da šifriranje vašeg novčanika ne može u potpunosti zaštititi vaše gongxincoine od krađe preko zloćudnog softvera koji bi bio na vašem računalu.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -291,8 +291,8 @@
         <translation>Otvori &amp;URI...</translation>
     </message>
     <message>
-        <source>Emercoin Core client</source>
-        <translation>Emercoin Core klijent</translation>
+        <source>Gongxincoin Core client</source>
+        <translation>Gongxincoin Core klijent</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -303,12 +303,12 @@
         <translation>Re-indeksiranje blokova na disku...</translation>
     </message>
     <message>
-        <source>Send coins to an Emercoin address</source>
-        <translation>Slanje novca na emercoin adresu</translation>
+        <source>Send coins to an Gongxincoin address</source>
+        <translation>Slanje novca na gongxincoin adresu</translation>
     </message>
     <message>
-        <source>Modify configuration options for Emercoin</source>
-        <translation>Promijeni postavke konfiguracije za emercoin</translation>
+        <source>Modify configuration options for Gongxincoin</source>
+        <translation>Promijeni postavke konfiguracije za gongxincoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -331,8 +331,8 @@
         <translation>&amp;Potvrdite poruku...</translation>
     </message>
     <message>
-        <source>Emercoin</source>
-        <translation>Emercoin</translation>
+        <source>Gongxincoin</source>
+        <translation>Gongxincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -347,8 +347,8 @@
         <translation>Pri&amp;miti</translation>
     </message>
     <message>
-        <source>Show information about Emercoin Core</source>
-        <translation>Prikaži informacije o Emercoin Coreu</translation>
+        <source>Show information about Gongxincoin Core</source>
+        <translation>Prikaži informacije o Gongxincoin Coreu</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -363,12 +363,12 @@
         <translation>Šifriraj privatne ključeve koji pripadaju tvom novčaniku</translation>
     </message>
     <message>
-        <source>Sign messages with your Emercoin addresses to prove you own them</source>
-        <translation>Potpiši poruke svojim Emercoin adresama kako bi dokazao da si njihov vlasnik</translation>
+        <source>Sign messages with your Gongxincoin addresses to prove you own them</source>
+        <translation>Potpiši poruke svojim Gongxincoin adresama kako bi dokazao da si njihov vlasnik</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Emercoin addresses</source>
-        <translation>Provjerite porkue kako bi se uvjerili da su potpisane navedenim Emercoin adresama</translation>
+        <source>Verify messages to ensure they were signed with specified Gongxincoin addresses</source>
+        <translation>Provjerite porkue kako bi se uvjerili da su potpisane navedenim Gongxincoin adresama</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -387,16 +387,16 @@
         <translation>Traka kartica</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin Jezgra</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin Jezgra</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and emercoin: URIs)</source>
-        <translation>Zatraži uplate (Stvara QR kodove i emercoin: URIje)</translation>
+        <source>Request payments (generates QR codes and gongxincoin: URIs)</source>
+        <translation>Zatraži uplate (Stvara QR kodove i gongxincoin: URIje)</translation>
     </message>
     <message>
-        <source>&amp;About Emercoin Core</source>
-        <translation>&amp;O Emercoin Jezgri</translation>
+        <source>&amp;About Gongxincoin Core</source>
+        <translation>&amp;O Gongxincoin Jezgri</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -407,8 +407,8 @@
         <translation>Prikaži popis korištenih adresa i oznaka za primanje isplate</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Emercoin network</source>
-        <translation><numerusform>%n aktivna veza na Emercoin mrežu</numerusform><numerusform>%n aktivne veze na Emercoin mrežu</numerusform><numerusform>%n aktivnih veza na Emercoin mrežu</numerusform></translation>
+        <source>%n active connection(s) to Gongxincoin network</source>
+        <translation><numerusform>%n aktivna veza na Gongxincoin mrežu</numerusform><numerusform>%n aktivne veze na Gongxincoin mrežu</numerusform><numerusform>%n aktivnih veza na Gongxincoin mrežu</numerusform></translation>
     </message>
     <message>
         <source>Error</source>
@@ -532,8 +532,8 @@ Adresa:%4
         <translation>Upisana adresa "%1" je već u adresaru.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Emercoin address.</source>
-        <translation>Upisana adresa "%1" nije valjana emercoin adresa.</translation>
+        <source>The entered address "%1" is not a valid Gongxincoin address.</source>
+        <translation>Upisana adresa "%1" nije valjana gongxincoin adresa.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -554,16 +554,16 @@ Adresa:%4
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin Jezgra</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin Jezgra</translation>
     </message>
     <message>
         <source>version</source>
         <translation>verzija</translation>
     </message>
     <message>
-        <source>About Emercoin Core</source>
-        <translation>O Emercoin Jezrgu</translation>
+        <source>About Gongxincoin Core</source>
+        <translation>O Gongxincoin Jezrgu</translation>
     </message>
     <message>
         <source>Usage:</source>
@@ -585,8 +585,8 @@ Adresa:%4
         <translation>Dobrodošli</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin Jezgra</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin Jezgra</translation>
     </message>
     <message>
         <source>Error</source>
@@ -607,20 +607,20 @@ Adresa:%4
         <translation>&amp;Glavno</translation>
     </message>
     <message>
-        <source>Automatically start Emercoin after logging in to the system.</source>
-        <translation>Automatski pokreni Emercoin kad se uključi računalo</translation>
+        <source>Automatically start Gongxincoin after logging in to the system.</source>
+        <translation>Automatski pokreni Gongxincoin kad se uključi računalo</translation>
     </message>
     <message>
-        <source>&amp;Start Emercoin on system login</source>
-        <translation>&amp;Pokreni Emercoin kod pokretanja sustava</translation>
+        <source>&amp;Start Gongxincoin on system login</source>
+        <translation>&amp;Pokreni Gongxincoin kod pokretanja sustava</translation>
     </message>
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Mreža</translation>
     </message>
     <message>
-        <source>Automatically open the Emercoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatski otvori port Emercoin klijenta na ruteru. To radi samo ako ruter podržava UPnP i ako je omogućen.</translation>
+        <source>Automatically open the Gongxincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatski otvori port Gongxincoin klijenta na ruteru. To radi samo ako ruter podržava UPnP i ako je omogućen.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -664,7 +664,7 @@ Adresa:%4
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Izaberite željeni najmanji dio emercoina koji će biti prikazan u sučelju i koji će se koristiti za plaćanje.</translation>
+        <translation>Izaberite željeni najmanji dio gongxincoina koji će biti prikazan u sučelju i koji će se koristiti za plaćanje.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -690,8 +690,8 @@ Adresa:%4
         <translation>Oblik</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Emercoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Prikazani podatci mogu biti zastarjeli. Vaš novčanik se automatski sinkronizira s Emercoin mrežom kada je veza uspostavljena, ali taj proces još nije završen.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Gongxincoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Prikazani podatci mogu biti zastarjeli. Vaš novčanik se automatski sinkronizira s Gongxincoin mrežom kada je veza uspostavljena, ali taj proces još nije završen.</translation>
     </message>
     <message>
         <source>Total:</source>
@@ -789,8 +789,8 @@ Adresa:%4
         <translation>Očisti konzolu</translation>
     </message>
     <message>
-        <source>Welcome to the Emercoin RPC console.</source>
-        <translation>Dobrodošli u Emercoin RPC konzolu.</translation>
+        <source>Welcome to the Gongxincoin RPC console.</source>
+        <translation>Dobrodošli u Gongxincoin RPC konzolu.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -1029,8 +1029,8 @@ Adresa:%4
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin Jezgra</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin Jezgra</translation>
     </message>
     <message>
         <source>[testnet]</source>

@@ -2,11 +2,11 @@
 
 *.exe
 src/bitcoin
-src/emercoind
-src/emercoin-cli
-src/emercoin-tx
-src/test/test_emercoin
-src/qt/test/test_emercoin-qt
+src/gongxincoind
+src/gongxincoin-cli
+src/gongxincoin-tx
+src/test/test_gongxincoin
+src/qt/test/test_gongxincoin-qt
 
 # autoreconf
 Makefile.in
@@ -74,12 +74,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-emercoin-qt
-Emercoin-Qt.app
+gongxincoin-qt
+Gongxincoin-Qt.app
 
 # Unit-tests
 Makefile.test
-emercoin-qt_test
+gongxincoin-qt_test
 src/test/buildenv.py
 
 # Resources cpp

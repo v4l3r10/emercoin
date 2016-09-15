@@ -1,5 +1,5 @@
 ---
-name: "emercoin-win-0.5"
+name: "gongxincoin-win-0.5"
 enable_cache: true
 suites:
 - "trusty"
@@ -20,8 +20,8 @@ packages:
 - "zip"
 reference_datetime: "2016-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/Emercoin/emercoin.git"
-  "dir": "emercoin"
+- "url": "https://github.com/Gongxincoin/gongxincoin.git"
+  "dir": "gongxincoin"
 files: []
 script: |
   WRAP_DIR=$HOME/wrapped
@@ -89,7 +89,7 @@ script: |
 
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd emercoin
+  cd gongxincoin
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
@@ -100,14 +100,14 @@ script: |
   ./autogen.sh
   ./configure --prefix=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`
   make dist
-  SOURCEDIST=`echo emercoin-*.tar.gz`
+  SOURCEDIST=`echo gongxincoin-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
 
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find emercoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find gongxincoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"
@@ -124,7 +124,7 @@ script: |
     make ${MAKEOPTS}
     make deploy
     make install-strip
-    cp -f emercoin-*setup*.exe $OUTDIR/
+    cp -f gongxincoin-*setup*.exe $OUTDIR/
     cd installed
     mv ${DISTNAME}/bin/*.dll ${DISTNAME}/lib/
     find . -name "lib*.la" -delete

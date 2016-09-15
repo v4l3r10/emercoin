@@ -221,7 +221,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                 pindexNew->nStakeTime     = diskindex.nStakeTime;
                 pindexNew->hashProofOfStake = diskindex.hashProofOfStake;
 
-                // emercoin: we ignore this check if header was gotten from old client and we still did not download block for it.
+                // gongxincoin: we ignore this check if header was gotten from old client and we still did not download block for it.
                 if (pindexNew->IsProofOfWork() && !CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits))
                     return error("LoadBlockIndex() : CheckProofOfWork failed: %s", pindexNew->ToString());
 

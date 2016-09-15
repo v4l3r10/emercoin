@@ -99,7 +99,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "reservebalance", 0 },
     { "reservebalance", 1 },
 
-    // emercoin:
+    // gongxincoin:
     { "name_new", 2 },
     { "name_new", 4 },
     { "name_update", 2 },

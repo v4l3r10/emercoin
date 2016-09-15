@@ -44,7 +44,7 @@ public:
     uint32_t nBits;
     uint32_t nNonce;
 
-    // emercoin: copy from CBlockIndex.nFlags from other clients. We need this information because we are using headers-first syncronization.
+    // gongxincoin: copy from CBlockIndex.nFlags from other clients. We need this information because we are using headers-first syncronization.
     int32_t nFlags;
 
 

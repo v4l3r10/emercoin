@@ -60,11 +60,11 @@ bin_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += emercoind
+  bin_PROGRAMS += gongxincoind
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += emercoin-cli emercoin-tx
+  bin_PROGRAMS += gongxincoin-cli gongxincoin-tx
 endif
 
 .PHONY: FORCE
@@ -141,12 +141,12 @@ BITCOIN_CORE_H = \
   wallet_ismine.h \
   walletdb.h \
   compat/sanity.h \
-## --- ppcoin and emercoin headers start from this line --- ##
+## --- ppcoin and gongxincoin headers start from this line --- ##
   uint256hm.h \
   kernel.h \
   namecoin.h \
   hooks.h \
-  emcdns.h \
+  gxcdns.h \
   checkpoints_eb.h \
   ministun.h
 
@@ -193,10 +193,10 @@ libbitcoin_server_a_SOURCES = \
   script/sigcache.cpp \
   txdb.cpp \
   txmempool.cpp \
-## --- ppcoin and emercoin sources start from this line --- ##
+## --- ppcoin and gongxincoin sources start from this line --- ##
   kernel.cpp \
   namecoin.cpp \
-  emcdns.cpp \
+  gxcdns.cpp \
   stun.cpp \
   $(JSON_H) \
   $(BITCOIN_CORE_H)
@@ -306,7 +306,7 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-emercoind_LDADD = \
+gongxincoind_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UNIVALUE) \
@@ -317,35 +317,35 @@ emercoind_LDADD = \
   $(LIBSECP256K1)
 
 if ENABLE_WALLET
-emercoind_LDADD += libbitcoin_wallet.a
+gongxincoind_LDADD += libbitcoin_wallet.a
 endif
-emercoind_SOURCES = bitcoind.cpp
+gongxincoind_SOURCES = bitcoind.cpp
 #
 
 if TARGET_WINDOWS
-emercoind_SOURCES += bitcoind-res.rc
+gongxincoind_SOURCES += bitcoind-res.rc
 endif
 
-emercoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
-emercoind_CPPFLAGS = $(BITCOIN_INCLUDES)
-emercoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+gongxincoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
+gongxincoind_CPPFLAGS = $(BITCOIN_INCLUDES)
+gongxincoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 # bitcoin-cli binary #
-emercoin_cli_LDADD = \
+gongxincoin_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBBITCOIN_UTIL) \
   $(BOOST_LIBS) \
   $(SSL_LIBS) \
   $(CRYPTO_LIBS)
 
-emercoin_cli_SOURCES = \
+gongxincoin_cli_SOURCES = \
   bitcoin-cli.cpp
 
 bitcoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
 # bitcoin-tx binary #
-emercoin_tx_LDADD = \
+gongxincoin_tx_LDADD = \
   $(LIBBITCOIN_UNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -354,15 +354,15 @@ emercoin_tx_LDADD = \
   $(BOOST_LIBS) \
   $(CRYPTO_LIBS)
 
-emercoin_tx_SOURCES = bitcoin-tx.cpp
-emercoin_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
+gongxincoin_tx_SOURCES = bitcoin-tx.cpp
+gongxincoin_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
-emercoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+gongxincoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-emercoin_cli_SOURCES += bitcoin-cli-res.rc
+gongxincoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
-emercoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+gongxincoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h

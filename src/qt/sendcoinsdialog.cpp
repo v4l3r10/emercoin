@@ -170,7 +170,7 @@ void SendCoinsDialog::setModel(WalletModel *model)
         updateSmartFeeLabel();
         updateGlobalFeeVariables();
 
-        // emercoin: disable fee section
+        // gongxincoin: disable fee section
         ui->frameFee->setHidden(true);
         ui->frameFee->setDisabled(true);
     }
@@ -746,7 +746,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
         }
         else if (!addr.IsValid()) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Emercoin address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Gongxincoin address"));
         }
         else // Valid address
         {

@@ -2,7 +2,7 @@
 // Distributed under the GPL3 software license, see the accompanying
 // file COPYING or http://www.gnu.org/licenses/gpl.html.
 
-// emercoin: TODO: redo a lot of test cases, because nTime from ppcoin broke most signature hashes.
+// gongxincoin: TODO: redo a lot of test cases, because nTime from ppcoin broke most signature hashes.
 
 #include "data/script_invalid.json.h"
 #include "data/script_valid.json.h"

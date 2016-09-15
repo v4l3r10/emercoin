@@ -1,38 +1,38 @@
 #!/bin/bash
 
-getent passwd emc >/dev/null || {
-  mkdir /tmp/emcskel
-  groupadd emc
-  useradd -m -d /var/lib/emc -k /tmp/emcskel -s /bin/false -g emc emc
-  rmdir /tmp/emcskel
+getent passwd gxc >/dev/null || {
+  mkdir /tmp/gxcskel
+  groupadd gxc
+  useradd -m -d /var/lib/gxc -k /tmp/gxcskel -s /bin/false -g gxc gxc
+  rmdir /tmp/gxcskel
 }
 
-mkdir -p /etc/ssl/emc
-[ ! -f /etc/ssl/emc/emercoin.key ] || [ ! -f /etc/ssl/emc/emercoin.crt ] && openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/ssl/emc/emercoin.key -out /etc/ssl/emc/emercoin.crt -days 3560 -subj /C=US/ST=Oregon/L=Portland/O=IT/CN=emercoin.emc
+mkdir -p /etc/ssl/gxc
+[ ! -f /etc/ssl/gxc/gongxincoin.key ] || [ ! -f /etc/ssl/gxc/gongxincoin.crt ] && openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/ssl/gxc/gongxincoin.key -out /etc/ssl/gxc/gongxincoin.crt -days 3560 -subj /C=US/ST=Oregon/L=Portland/O=IT/CN=gongxincoin.gxc
 
-[ -f /var/lib/emc/.emercoin/addr.dat ] && { cd /var/lib/emc/.emercoin && rm -rf database addr.dat nameindex* blk* *.log .lock; }
-[ -f /var/lib/emc/.emercoin/emercoin.conf ] && { 
-  sed -i -e 's|rpcallowip=\*|rpcallowip=0.0.0.0/0|' /var/lib/emc/.emercoin/emercoin.conf
-  service emercoind status >/dev/null && service emercoind restart >/dev/null
+[ -f /var/lib/gxc/.gongxincoin/addr.dat ] && { cd /var/lib/gxc/.gongxincoin && rm -rf database addr.dat nameindex* blk* *.log .lock; }
+[ -f /var/lib/gxc/.gongxincoin/gongxincoin.conf ] && { 
+  sed -i -e 's|rpcallowip=\*|rpcallowip=0.0.0.0/0|' /var/lib/gxc/.gongxincoin/gongxincoin.conf
+  service gongxincoind status >/dev/null && service gongxincoind restart >/dev/null
   exit 0
 }
 
 mkdir -p /etc/logrotate.d
-cat<<EOF > /etc/logrotate.d/emercoind
-/var/lib/emc/.emercoin/*.log
+cat<<EOF > /etc/logrotate.d/gongxincoind
+/var/lib/gxc/.gongxincoin/*.log
 {
   weekly
   rotate 6
   compress
   delaycompress
   missingok
-  create 0644 emc emc
+  create 0644 gxc gxc
 }
 EOF
 
-mkdir -p /var/lib/emc/.emercoin
-cat<<EOF >/var/lib/emc/.emercoin/emercoin.conf
-rpcuser=emccoinrpc
+mkdir -p /var/lib/gxc/.gongxincoin
+cat<<EOF >/var/lib/gxc/.gongxincoin/gongxincoin.conf
+rpcuser=gxccoinrpc
 rpcpassword=`pwgen 50 1`
 listen=1
 server=1
@@ -42,19 +42,19 @@ maxconnections=80
 gen=0
 daemon=1
 rpcssl=1
-rpcsslcertificatechainfile=/etc/ssl/emc/emercoin.crt
-rpcsslprivatekeyfile=/etc/ssl/emc/emercoin.key
+rpcsslcertificatechainfile=/etc/ssl/gxc/gongxincoin.crt
+rpcsslprivatekeyfile=/etc/ssl/gxc/gongxincoin.key
 rpcsslciphers=HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:!SSLv2
 EOF
 
-chmod 600 /var/lib/emc/.emercoin/emercoin.conf
-chown -R emc.emc /var/lib/emc/.emercoin
+chmod 600 /var/lib/gxc/.gongxincoin/gongxincoin.conf
+chown -R gxc.gxc /var/lib/gxc/.gongxincoin
 
-mkdir -p /etc/emercoin
-ln -s /var/lib/emc/.emercoin/emercoin.conf /etc/emercoin/emercoin.conf
-ln -s /etc/ssl/emc /etc/emercoin/certs
+mkdir -p /etc/gongxincoin
+ln -s /var/lib/gxc/.gongxincoin/gongxincoin.conf /etc/gongxincoin/gongxincoin.conf
+ln -s /etc/ssl/gxc /etc/gongxincoin/certs
 
-update-rc.d emercoind defaults
-service emercoind start
+update-rc.d gongxincoind defaults
+service gongxincoind start
 
 exit 0

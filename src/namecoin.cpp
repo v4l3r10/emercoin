@@ -312,7 +312,7 @@ Value sendtoname(const Array& params, bool fHelp)
             + HelpRequiringPassphrase());
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     CNameVal name = nameValFromValue(params[0]);
     CAmount nAmount = AmountFromValue(params[1]);
@@ -387,7 +387,7 @@ Value name_list(const Array& params, bool fHelp)
                 );
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     CNameVal nameUniq;
     if (params.size() == 1)
@@ -524,7 +524,7 @@ Value name_show(const Array& params, bool fHelp)
             );
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     Object oName;
     CNameVal name = nameValFromValue(params[0]);
@@ -605,7 +605,7 @@ Value name_history (const Array& params, bool fHelp)
         );
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     CNameVal name = nameValFromValue(params[0]);
     bool fFullHistory = false;
@@ -737,7 +737,7 @@ Value name_filter(const Array& params, bool fHelp)
                 );
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     string strRegexp;
     int nFrom = 0;
@@ -853,7 +853,7 @@ Value name_scan(const Array& params, bool fHelp)
                 );
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Emercoin is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Gongxincoin is downloading blocks...");
 
     CNameVal name;
     int nMax = 500;
@@ -1075,7 +1075,7 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
     if (IsInitialBlockDownload())
     {
         ret.err_code = RPC_CLIENT_IN_INITIAL_DOWNLOAD;
-        ret.err_msg = "Emercoin is downloading blocks...";
+        ret.err_msg = "Gongxincoin is downloading blocks...";
         return ret;
     }
 
@@ -1164,7 +1164,7 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
             if (!address.IsValid())
             {
                 ret.err_code = RPC_INVALID_ADDRESS_OR_KEY;
-                ret.err_msg = "emercoin address is invalid";
+                ret.err_msg = "gongxincoin address is invalid";
                 return ret;
             }
             scriptPubKey = GetScriptForDestination(address.Get());

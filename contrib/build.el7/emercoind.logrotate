@@ -1,9 +1,9 @@
-/var/lib/emc/.emercoin/*.log
+/var/lib/gxc/.gongxincoin/*.log
 {
   weekly
   rotate 6
   compress
   delaycompress
   missingok
-  create 0644 emc emc
+  create 0644 gxc gxc
 }

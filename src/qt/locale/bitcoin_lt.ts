@@ -136,8 +136,8 @@
         <translation>Patvirtinkite piniginės užšifravimą</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR EMERCOINS&lt;/b&gt;!</source>
-        <translation>Dėmesio: jei užšifruosite savo piniginę ir pamesite slaptafrazę, jūs&lt;b&gt;PRARASITE VISUS SAVO EMERCOINUS&lt;/b&gt;! </translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR GONGXINCOINS&lt;/b&gt;!</source>
+        <translation>Dėmesio: jei užšifruosite savo piniginę ir pamesite slaptafrazę, jūs&lt;b&gt;PRARASITE VISUS SAVO GONGXINCOINUS&lt;/b&gt;! </translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -152,8 +152,8 @@
         <translation>Piniginė užšifruota</translation>
     </message>
     <message>
-        <source>Emercoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your emercoins from being stolen by malware infecting your computer.</source>
-        <translation>Emercoin dabar užsidarys šifravimo proceso pabaigai. Atminkite, kad piniginės šifravimas negali pilnai apsaugoti emercoinų vagysčių kai tinkle esančios kenkėjiškos programos patenka į jūsų kompiuterį.</translation>
+        <source>Gongxincoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your gongxincoins from being stolen by malware infecting your computer.</source>
+        <translation>Gongxincoin dabar užsidarys šifravimo proceso pabaigai. Atminkite, kad piniginės šifravimas negali pilnai apsaugoti gongxincoinų vagysčių kai tinkle esančios kenkėjiškos programos patenka į jūsų kompiuterį.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -255,8 +255,8 @@
         <translation>&amp;Gaunami adresai...</translation>
     </message>
     <message>
-        <source>Emercoin Core client</source>
-        <translation>Emercoin Core klientas</translation>
+        <source>Gongxincoin Core client</source>
+        <translation>Gongxincoin Core klientas</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -267,12 +267,12 @@
         <translation>Blokai iš naujo indeksuojami...</translation>
     </message>
     <message>
-        <source>Send coins to an Emercoin address</source>
-        <translation>Siųsti monetas Emercoin adresui</translation>
+        <source>Send coins to an Gongxincoin address</source>
+        <translation>Siųsti monetas Gongxincoin adresui</translation>
     </message>
     <message>
-        <source>Modify configuration options for Emercoin</source>
-        <translation>Keisti emercoin konfigūracijos galimybes</translation>
+        <source>Modify configuration options for Gongxincoin</source>
+        <translation>Keisti gongxincoin konfigūracijos galimybes</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -295,8 +295,8 @@
         <translation>&amp;Tikrinti žinutę...</translation>
     </message>
     <message>
-        <source>Emercoin</source>
-        <translation>Emercoin</translation>
+        <source>Gongxincoin</source>
+        <translation>Gongxincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -311,8 +311,8 @@
         <translation>&amp;Gauti</translation>
     </message>
     <message>
-        <source>Show information about Emercoin Core</source>
-        <translation>Rodyti informaciją apie Emercoin Core</translation>
+        <source>Show information about Gongxincoin Core</source>
+        <translation>Rodyti informaciją apie Gongxincoin Core</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -343,16 +343,16 @@
         <translation>Kortelių įrankinė</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin branduolys</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin branduolys</translation>
     </message>
     <message>
-        <source>&amp;About Emercoin Core</source>
-        <translation>&amp;Apie Emercoin Core</translation>
+        <source>&amp;About Gongxincoin Core</source>
+        <translation>&amp;Apie Gongxincoin Core</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Emercoin network</source>
-        <translation><numerusform>%n Emercoin tinklo aktyvus ryšys</numerusform><numerusform>%n Emercoin tinklo aktyvūs ryšiai</numerusform><numerusform>%n Emercoin tinklo aktyvūs ryšiai</numerusform></translation>
+        <source>%n active connection(s) to Gongxincoin network</source>
+        <translation><numerusform>%n Gongxincoin tinklo aktyvus ryšys</numerusform><numerusform>%n Gongxincoin tinklo aktyvūs ryšiai</numerusform><numerusform>%n Gongxincoin tinklo aktyvūs ryšiai</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
@@ -607,8 +607,8 @@ Adresas: %4</translation>
         <translation>Įvestas adresas „%1“ jau yra adresų knygelėje.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Emercoin address.</source>
-        <translation>Įvestas adresas „%1“ nėra galiojantis Emercoin adresas.</translation>
+        <source>The entered address "%1" is not a valid Gongxincoin address.</source>
+        <translation>Įvestas adresas „%1“ nėra galiojantis Gongxincoin adresas.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -629,16 +629,16 @@ Adresas: %4</translation>
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin branduolys</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin branduolys</translation>
     </message>
     <message>
         <source>version</source>
         <translation>versija</translation>
     </message>
     <message>
-        <source>About Emercoin Core</source>
-        <translation>Apie Emercoin Core</translation>
+        <source>About Gongxincoin Core</source>
+        <translation>Apie Gongxincoin Core</translation>
     </message>
     <message>
         <source>Command-line options</source>
@@ -672,12 +672,12 @@ Adresas: %4</translation>
         <translation>Sveiki</translation>
     </message>
     <message>
-        <source>Welcome to Emercoin Core.</source>
-        <translation>Sveiki atvykę į Emercoin Core.</translation>
+        <source>Welcome to Gongxincoin Core.</source>
+        <translation>Sveiki atvykę į Gongxincoin Core.</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin branduolys</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin branduolys</translation>
     </message>
     <message>
         <source>Error</source>
@@ -698,20 +698,20 @@ Adresas: %4</translation>
         <translation>&amp;Pagrindinės</translation>
     </message>
     <message>
-        <source>Automatically start Emercoin after logging in to the system.</source>
+        <source>Automatically start Gongxincoin after logging in to the system.</source>
         <translation>Automatiškai paleisti Emerkoin programą įjungus sistemą.</translation>
     </message>
     <message>
-        <source>&amp;Start Emercoin on system login</source>
-        <translation>&amp;Paleisti Emercoin programą su window sistemos paleidimu</translation>
+        <source>&amp;Start Gongxincoin on system login</source>
+        <translation>&amp;Paleisti Gongxincoin programą su window sistemos paleidimu</translation>
     </message>
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Tinklas</translation>
     </message>
     <message>
-        <source>Automatically open the Emercoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatiškai atidaryti Emercoin kliento prievadą maršrutizatoriuje. Tai veikia tik tada, kai jūsų maršrutizatorius palaiko UPnP ir ji įjungta.</translation>
+        <source>Automatically open the Gongxincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatiškai atidaryti Gongxincoin kliento prievadą maršrutizatoriuje. Tai veikia tik tada, kai jūsų maršrutizatorius palaiko UPnP ir ji įjungta.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -758,8 +758,8 @@ Adresas: %4</translation>
         <translation>Naudotojo sąsajos &amp;kalba:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Emercoin.</source>
-        <translation>Čia gali būti nustatyta naudotojo sąsajos kalba. Šis nustatymas įsigalios iš naujo paleidus Emercoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Gongxincoin.</source>
+        <translation>Čia gali būti nustatyta naudotojo sąsajos kalba. Šis nustatymas įsigalios iš naujo paleidus Gongxincoin.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -924,8 +924,8 @@ Adresas: %4</translation>
         <translation>Išvalyti konsolę</translation>
     </message>
     <message>
-        <source>Welcome to the Emercoin RPC console.</source>
-        <translation>Sveiki atvykę į Emercoin RPC konsolę.</translation>
+        <source>Welcome to the Gongxincoin RPC console.</source>
+        <translation>Sveiki atvykę į Gongxincoin RPC konsolę.</translation>
     </message>
     <message>
         <source>%1 B</source>
@@ -1185,7 +1185,7 @@ Adresas: %4</translation>
         <translation>Įveskite pranešimą, kurį norite pasirašyti čia</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Emercoin address</source>
+        <source>Sign the message to prove you own this Gongxincoin address</source>
         <translation>Registruotis žinute įrodymuii, kad turite šį adresą</translation>
     </message>
     <message>
@@ -1201,8 +1201,8 @@ Adresas: %4</translation>
         <translation>&amp;Patikrinti žinutę</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Emercoin address</source>
-        <translation>Patikrinkite žinutę, jog įsitikintumėte, kad ją pasirašė nurodytas Emercoin adresas</translation>
+        <source>Verify the message to ensure it was signed with the specified Gongxincoin address</source>
+        <translation>Patikrinkite žinutę, jog įsitikintumėte, kad ją pasirašė nurodytas Gongxincoin adresas</translation>
     </message>
     <message>
         <source>Click "Sign Message" to generate signature</source>
@@ -1252,8 +1252,8 @@ Adresas: %4</translation>
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Emercoin branduolys</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Gongxincoin branduolys</translation>
     </message>
     <message>
         <source>[testnet]</source>

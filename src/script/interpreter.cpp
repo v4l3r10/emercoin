@@ -1089,7 +1089,7 @@ bool VerifyScript(const CScript& scriptSig, const CScript& scriptPubKey, unsigne
 {
     set_error(serror, SCRIPT_ERR_UNKNOWN_ERROR);
 
-    // emercoin: for backward compatability namecoin script should not be checked for minimaldata
+    // gongxincoin: for backward compatability namecoin script should not be checked for minimaldata
     if (fNamecoin)
         flags &= ~SCRIPT_VERIFY_MINIMALDATA;
 

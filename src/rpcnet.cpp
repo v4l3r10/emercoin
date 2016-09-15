@@ -228,7 +228,7 @@ Value getaddednodeinfo(const Array& params, bool fHelp)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:8333\",  (string) The emercoin server host and port\n"
+            "         \"address\" : \"192.168.0.201:8333\",  (string) The gongxincoin server host and port\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "       ,...\n"
@@ -394,7 +394,7 @@ Value getnetworkinfo(const Array& params, bool fHelp)
             "  }\n"
             "  ,...\n"
             "  ],\n"
-            "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for non-free transactions in emc/kb\n"
+            "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for non-free transactions in gxc/kb\n"
             "  \"localaddresses\": [                    (array) list of local addresses\n"
             "  {\n"
             "    \"address\": \"xxxx\",                 (string) network address\n"
@@ -410,7 +410,7 @@ Value getnetworkinfo(const Array& params, bool fHelp)
         );
 
     Object obj;
-    obj.push_back(Pair("version",       EMERCOIN_VERSION));
+    obj.push_back(Pair("version",       GONGXINCOIN_VERSION));
     obj.push_back(Pair("subversion",
         FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, std::vector<string>())));
     obj.push_back(Pair("protocolversion",PROTOCOL_VERSION));

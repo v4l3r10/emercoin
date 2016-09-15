@@ -183,8 +183,8 @@
         <translation>Ndrysho frazkalimin e përdorur per enkriptimin e portofolit</translation>
     </message>
     <message>
-        <source>Emercoin</source>
-        <translation>Emercoin</translation>
+        <source>Gongxincoin</source>
+        <translation>Gongxincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -219,11 +219,11 @@
         <translation>Shiriti i mjeteve</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Berthama Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Berthama Gongxincoin</translation>
     </message>
     <message>
-        <source>&amp;About Emercoin Core</source>
+        <source>&amp;About Gongxincoin Core</source>
         <translation>Rreth Berthames Emerkoin</translation>
     </message>
     <message numerus="yes">
@@ -374,15 +374,15 @@
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Berthama Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Berthama Gongxincoin</translation>
     </message>
     <message>
         <source>version</source>
         <translation>versioni</translation>
     </message>
     <message>
-        <source>About Emercoin Core</source>
+        <source>About Gongxincoin Core</source>
         <translation>Rreth Berthames Emerkoin</translation>
     </message>
     </context>
@@ -393,12 +393,12 @@
         <translation>Miresevini</translation>
     </message>
     <message>
-        <source>Welcome to Emercoin Core.</source>
-        <translation>Miresevini ne Berthamen Emercoin</translation>
+        <source>Welcome to Gongxincoin Core.</source>
+        <translation>Miresevini ne Berthamen Gongxincoin</translation>
     </message>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Berthama Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Berthama Gongxincoin</translation>
     </message>
     <message>
         <source>Error</source>
@@ -585,8 +585,8 @@
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Emercoin Core</source>
-        <translation>Berthama Emercoin</translation>
+        <source>Gongxincoin Core</source>
+        <translation>Berthama Gongxincoin</translation>
     </message>
     <message>
         <source>[testnet]</source>
